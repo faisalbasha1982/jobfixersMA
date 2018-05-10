@@ -3,6 +3,11 @@ package com.jobfixersma;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNRSA.RNRSAPackage;
+import com.react_native_encryption_library.EncryptionReactPackager;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import cc.rocwang.aescrypto.AesCryptoPackage;
+import com.tectiv3.aes.RCTAesPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -26,6 +31,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNRSAPackage(),
+            new EncryptionReactPackager(),
+            new ReactNativeConfigPackage(),
+            new AesCryptoPackage(),
+            new RCTAesPackage(),
             new MapsPackage(),
             new VectorIconsPackage(),
             new RNDeviceInfo()

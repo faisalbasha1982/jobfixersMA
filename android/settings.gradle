@@ -1,4 +1,14 @@
 rootProject.name = 'jobfixersMA'
+include ':react-native-rsa-native'
+project(':react-native-rsa-native').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-rsa-native/android')
+include ':react-native-encryption-library'
+project(':react-native-encryption-library').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-encryption-library/android')
+include ':react-native-config'
+project(':react-native-config').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-config/android')
+include ':react-native-aes-kit'
+project(':react-native-aes-kit').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-aes-kit/android/app')
+include ':react-native-aes-crypto'
+project(':react-native-aes-crypto').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-aes-crypto/android')
 include ':react-native-maps'
 project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-maps/lib/android')
 include ':react-native-vector-icons'

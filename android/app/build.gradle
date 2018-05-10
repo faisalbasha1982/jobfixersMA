@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-rsa-native')
+    compile project(':react-native-encryption-library')
+    compile project(':react-native-config')
+    compile project(':react-native-aes-kit')
+    compile project(':react-native-aes-crypto')
     compile(project(':react-native-maps')) {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
         exclude group: 'com.google.android.gms', module: 'play-services-maps'

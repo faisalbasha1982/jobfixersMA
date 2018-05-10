@@ -3,7 +3,8 @@ const languageSettings =
 english: {    
     languageText: "ENGLISH",        
     textChoose: "Choose your language!",
-    welcomeTextRed: "Work through JobFixers and earn more!",
+    welcomeTextRed: "Work through JobFIXers and earn more!",
+    welcomeTextMore: "",
     welcomeTextGray: "Phasellus sed tellus quis justo finibus tempus. Nam sagittis sollicitudin turpis.",
     buttonText: "I want to earn more!",
     firstNameText: "First Name",
@@ -22,6 +23,7 @@ english: {
 dutch: {    
     languageText: "NEDERLANDS",
     welcomeTextRed: "Werk via JobFIXers en verdien meer!",
+    welcomeTextMore: "",
     welcomeTextGray: "Phasellus sed tellus quis justo finibus tempus. Nam sagittis sollicitudin turpis.",
     buttonText: "Ik wil meer verdienen!",
     firstNameText: "Voornaam",
@@ -39,7 +41,8 @@ dutch: {
 
 french: {    
     languageText: "FRANÇAIS",
-    welcomeTextRed: "Travaillez via JobFixers et gagnez plus!",
+    welcomeTextRed: "Travaillez via JobFIXers et gagnez plus!",
+    welcomeTextMore: "",
     welcomeTextGray: "Phasellus sed tellus quis justo finibus tempus. Nam sagittis sollicitudin turpis.",
     buttonText: "Je veux gagner plus!",
     firstNameText: "Prénom",
