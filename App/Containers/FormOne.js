@@ -11,6 +11,7 @@ import {
     PixelRatio,
     Alert
 } from 'react-native';
+import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ButtonWelcome from '../Components/ButtonWelcome';
@@ -44,9 +45,12 @@ export default class FormOne extends Component {
 
     state = {
         language: 'NEDERLANDS',
-        workText: '',
-        moreText: '',
-        randomText: '',
+        firstName:'',
+        name:'',
+        phoneNumber:'',
+        firstNameInput:'',
+        lastNameInput:'',
+        phoneNumberInput:'',
         buttonText: '',
     };
 
@@ -58,37 +62,49 @@ export default class FormOne extends Component {
     }
 
     componentDidMount() {
-        console.log("language="+this.state.language);
+        console.log("default language="+this.state.language);
         this.setState({ language: this.props.language });
+        console.log("language="+this.state.language);
         this.setText();
+        console.log("this.state.firstName="+this.state.firstName);
+        console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    setText = () => {
+    setText = async () => {
+
+        console.log("this.state.language="+this.state.language);
 
         if (this.state.language === 'NEDERLANDS') {
+            console.log("setting in Nederlands");
             this.setState({
-                workText: LanguageSettings.dutch.welcomeTextRed,
-                moreText: LanguageSettings.dutch.welcomeTextMore,
-                randomText: LanguageSettings.dutch.welcomeTextGray,
-                buttonText: LanguageSettings.dutch.buttonText
+                firstName:  LanguageSettings.dutch.firstNameText,
+                name:       LanguageSettings.dutch.lastNameText,
+                phoneNumber: LanguageSettings.dutch.telephoneNumberText,
+                buttonText: LanguageSettings.dutch.buttonNextText
             });
         }
         else
             if (this.state.language === 'ENGLISH') {
+                console.log("setting in English");
                 this.setState({
-                    workText: LanguageSettings.english.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.english.welcomeTextGray,
-                    buttonText: LanguageSettings.english.buttonText
+                    firstName:  LanguageSettings.english.firstNameText,
+                    name: LanguageSettings.english.lastNameText,
+                    phoneNumber: LanguageSettings.english.telephoneNumberText,
+                    buttonText: LanguageSettings.english.buttonNextText
                 });
             }
             else
+              {
+                console.log("setting in French");
                 this.setState({
-                    workText: LanguageSettings.french.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.french.welcomeTextGray,
-                    buttonText: LanguageSettings.french.buttonText
+                    firstName:  LanguageSettings.french.firstNameText,
+                    name: LanguageSettings.french.lastNameText,
+                    phoneNumber: LanguageSettings.french.telephoneNumberText,
+                    buttonText: LanguageSettings.french.buttonNextText
                 });
+            }
+    
+       
     }
 
     render() {
@@ -99,20 +115,33 @@ export default class FormOne extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                 </View>
 
-                <View style={newStyle.logoContainer}>
-                    <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.532, height: viewPortHeight * 0.06 }} />
-                </View>
+                <View style={newStyle.inputContainer}>
 
-                <View style={newStyle.workText}>
-                    <Text style={newStyle.languageText}>{this.state.workText}</Text>
-                </View>
+                    <Text style={newStyle.firstName}>{this.state.firstName}</Text>
+                    <TextInput
+                        style={ newStyle.nameInput}
+                        placeholder=''
+                        onChangeText= { (firstNameInput) => this.setState({firstNameInput}) }
+                    />
 
-                <View style={newStyle.randomText}>
-                    <Text style={newStyle.rText}> {this.state.randomText}</Text>
+                    <Text style={newStyle.firstName}>{this.state.name}</Text>
+                    <TextInput
+                        style={ newStyle.nameInput}
+                        placeholder=''
+                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
+                    />
+
+                    <Text style={newStyle.firstName}>{this.state.phoneNumber}</Text>
+                    <TextInput
+                        style={ newStyle.nameInput}
+                        placeholder=''
+                        onChangeText= { (phoneNumberInput) => this.setState({phoneNumberInput}) }
+                    />                
+
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <ButtonWelcome language={this.state.language} />
+                    <ButtonWelcome text={LanguageSettings.dutch.buttonNextText} />
                 </View>
 
             </View>
@@ -133,82 +162,56 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.45,
-        flex: 10,
-        backgroundColor: 'steelblue',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    logoContainer: {
-        width: viewPortWidth,
-        height: 50,
-        flex: 2,
+        height: viewPortHeight * 0.50,
+        flex: 8,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    languageTextContainer: {
-        width: viewPortWidth,
-        height: 50,
-        flex: 2,
+    inputContainer: {
         backgroundColor: 'white',
-        justifyContent: 'flex-end'
+        marginTop: 25,
+        padding: 20,
+        flex: 12
     },
 
-    workText: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        flex: 4,
-        flexDirection: 'column',
-        height: 50,
-        width: viewPortWidth * 0.40,
-    },
-
-    languageText: {
-        width: 316,
-        height: 68,
+    firstName: {
+        width: 159,
+        height: 19,
         fontFamily: 'WorkSans-Regular',
-        fontSize: 28,
-        fontWeight: '500',
-        color: '#e73d50',
-        fontStyle: 'normal',
-        lineHeight: 34,
-        letterSpacing: 0,
-        textAlign: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        marginLeft: 15,
-        marginRight: 15,
-    },
-
-    rText: {
-        width: 276,
-        height: 57,
-        fontFamily: 'WorkSans-Medium',
         fontSize: 16,
+        fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
-        textAlign: 'center',
+        textAlign: 'left',
+        marginBottom: 15
     },
 
+    nameInput: {
+        width: 334,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 15,
+        padding: 10,
+    },
 
     buttons: {
-        width: viewPortWidth * 0.98,
-        height: 157,
-        flex: 10,
+        width: viewPortWidth,
+        height: 20,
+        flex: 2,
         backgroundColor: 'white',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        marginLeft: 25,
+        marginLeft: 15,
         marginRight: 25,
-        marginBottom: viewPortHeight * 0.10,
+        marginBottom:  10,
+        marginTop: 10,
     },
 
 });
 
-WelcomeScreen.propTypes = {
+FormOne.propTypes = {
     language: PropTypes.string.isRequired
 }

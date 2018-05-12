@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
@@ -44,9 +45,10 @@ export default class ThankYouScreen extends Component {
 
     state = {
         language: 'NEDERLANDS',
-        workText: '',
-        moreText: '',
-        randomText: '',
+        thankYouText: '',
+        thankYouTextOne: '',
+        thankYouTextTwo: '',
+        followText: '',                
         buttonText: '',
     };
 
@@ -67,26 +69,29 @@ export default class ThankYouScreen extends Component {
 
         if (this.state.language === 'NEDERLANDS') {
             this.setState({
-                workText: LanguageSettings.dutch.welcomeTextRed,
-                moreText: LanguageSettings.dutch.welcomeTextMore,
-                randomText: LanguageSettings.dutch.welcomeTextGray,
+                thankYouText: LanguageSettings.dutch.thankYouText,
+                thankYouTextOne: LanguageSettings.dutch.thankYouTextOne,
+                thankYouTextTwo: LanguageSettings.dutch.thankYouTextTwo,
+                followText: LanguageSettings.dutch.followText,
                 buttonText: LanguageSettings.dutch.buttonText
             });
         }
         else
             if (this.state.language === 'ENGLISH') {
                 this.setState({
-                    workText: LanguageSettings.english.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.english.welcomeTextGray,
+                    thankYouText: LanguageSettings.english.thankYouText,
+                    thankYouTextOne: LanguageSettings.english.thankYouTextOne,
+                    thankYouTextTwo: LanguageSettings.english.thankYouTextTwo,
+                    followText: LanguageSettings.english.followText,
                     buttonText: LanguageSettings.english.buttonText
                 });
             }
             else
                 this.setState({
-                    workText: LanguageSettings.french.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.french.welcomeTextGray,
+                    thankYouText: LanguageSettings.french.thankYouText,
+                    thankYouTextOne: LanguageSettings.french.thankYouTextOne,
+                    thankYouTextTwo: LanguageSettings.french.thankYouTextTwo,
+                    followText: LanguageSettings.french.followText,
                     buttonText: LanguageSettings.french.buttonText
                 });
     }
@@ -103,16 +108,41 @@ export default class ThankYouScreen extends Component {
                     <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.532, height: viewPortHeight * 0.06 }} />
                 </View>
 
-                <View style={newStyle.workText}>
-                    <Text style={newStyle.languageText}>{this.state.workText}</Text>
+                <View style={newStyle.thankYouText}>
+                    <Text style={newStyle.languageText}>{ this.state.thankYouText + '\n'+ this.state.thankYouTextOne + '\n'+ this.state.thankYouTextTwo }</Text>
                 </View>
 
                 <View style={newStyle.randomText}>
-                    <Text style={newStyle.rText}> {this.state.randomText}</Text>
+                    <Text style={newStyle.rText}> {this.state.followText}</Text>
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <ButtonWelcome language={this.state.language} />
+                        <TouchableOpacity
+                                style={{
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    width:35,
+                                    height:35,
+                                    marginRight: 25,
+                                    backgroundColor:'#e73d50',
+                                    borderRadius:35,
+                                    }}
+                                >
+                                <Icon name={"facebook-f"}  size={15} color="#fff" />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                                style={{
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    width:35,
+                                    height:35,
+                                    backgroundColor:'#e73d50',
+                                    borderRadius:35,
+                                    }}
+                                >
+                                <Icon name={"instagram"}  size={17} color="#fff" />
+                        </TouchableOpacity>
+
                 </View>
 
             </View>
@@ -134,8 +164,8 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.45,
-        flex: 10,
-        backgroundColor: 'steelblue',
+        flex: 31,
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -143,9 +173,12 @@ const newStyle = StyleSheet.create({
     logoContainer: {
         width: viewPortWidth,
         height: 50,
-        flex: 2,
+        flex: 8,
+        padding: 20,
+        paddingBottom: 10,
+        marginTop: 25,
         backgroundColor: 'white',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
     },
 
@@ -153,23 +186,28 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth,
         height: 50,
         flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end'
+        backgroundColor: 'powderblue',
+        justifyContent: 'flex-end',
+        marginTop: 10,
+        padding: 10,
     },
 
-    workText: {
+    thankYouText: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-        flex: 4,
+        flex: 5,
         flexDirection: 'column',
-        height: 50,
-        width: viewPortWidth * 0.40,
+        height: viewPortHeight * 0.50,
+        width: viewPortWidth,
+        padding: 17,
+        margin: 50,
+        marginTop: 80
     },
 
     languageText: {
         width: 316,
-        height: 68,
+        height: 120,
         fontFamily: 'WorkSans-Regular',
         fontSize: 28,
         fontWeight: '500',
@@ -184,31 +222,45 @@ const newStyle = StyleSheet.create({
         marginRight: 15,
     },
 
+    randomText: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        flex: 8,
+        flexDirection: 'column',
+        marginTop: 10,
+    },
+
     rText: {
-        width: 276,
-        height: 57,
+        width: 128,
+        height: 25,
         fontFamily: 'WorkSans-Medium',
-        fontSize: 16,
+        fontSize: 20,
         fontStyle: 'normal',
-        letterSpacing: 0.67,
+        fontWeight: 'normal',
+        letterSpacing: 0.8,
         textAlign: 'center',
     },
 
 
     buttons: {
-        width: viewPortWidth * 0.98,
+        width: viewPortWidth,
         height: 157,
         flex: 10,
+        flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 25,
+        alignItems: 'flex-start',
+        marginLeft: 15,
         marginRight: 25,
-        marginBottom: viewPortHeight * 0.10,
+        marginTop: 0,        
+        marginBottom:  10,
+        paddingTop: 0,
+        paddingLeft: 15
     },
 
 });
 
-WelcomeScreen.propTypes = {
+ThankYouScreen.propTypes = {
     language: PropTypes.string.isRequired
 }

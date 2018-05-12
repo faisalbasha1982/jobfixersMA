@@ -11,6 +11,10 @@ import {
     PixelRatio,
     Alert
 } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Icons from 'react-native-vector-icons/Feather';
+import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ButtonWelcome from '../Components/ButtonWelcome';
@@ -40,15 +44,21 @@ export default class FormTwo extends Component {
     constructor(props)
     {
         super(props);        
+
+        this.state = {
+            language: 'NEDERLANDS',
+            workText: '',
+            postalCode: '',
+            policyText: '',
+            buttonText: '',
+            checked: false,
+        };
+    
     }
 
-    state = {
-        language: 'NEDERLANDS',
-        workText: '',
-        moreText: '',
-        randomText: '',
-        buttonText: '',
-    };
+    somethingElse = () => {
+
+    }
 
     componentWillReceiveProps(props) {
         if (this.state.language !== this.props.language) {
@@ -58,40 +68,54 @@ export default class FormTwo extends Component {
     }
 
     componentDidMount() {
-        console.log("language="+this.state.language);
+        console.log("default language="+this.state.language);
         this.setState({ language: this.props.language });
+        console.log("language="+this.state.language);
         this.setText();
+        console.log("this.state.firstName="+this.state.firstName);
+        console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    setText = () => {
+    setText = async () => {
+
+        console.log("this.state.language="+this.state.language);
 
         if (this.state.language === 'NEDERLANDS') {
+            console.log("setting in Nederlands");
             this.setState({
-                workText: LanguageSettings.dutch.welcomeTextRed,
-                moreText: LanguageSettings.dutch.welcomeTextMore,
-                randomText: LanguageSettings.dutch.welcomeTextGray,
-                buttonText: LanguageSettings.dutch.buttonText
+                workText:  LanguageSettings.dutch.workText,
+                postalCode: LanguageSettings.dutch.postalCodeText,
+                policyText: LanguageSettings.dutch.policyText,
+                buttonText: LanguageSettings.dutch.buttonTextJob
             });
         }
         else
             if (this.state.language === 'ENGLISH') {
+                console.log("setting in English");
                 this.setState({
-                    workText: LanguageSettings.english.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.english.welcomeTextGray,
-                    buttonText: LanguageSettings.english.buttonText
-                });
+                    workText:  LanguageSettings.english.workText,
+                    postalCode: LanguageSettings.english.postalCodeText,
+                    policyText: LanguageSettings.english.policyText,
+                    buttonText: LanguageSettings.english.buttonTextJob
+                    });
             }
             else
+              {
+                console.log("setting in French");
                 this.setState({
-                    workText: LanguageSettings.french.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
-                    randomText: LanguageSettings.french.welcomeTextGray,
-                    buttonText: LanguageSettings.french.buttonText
-                });
+                    workText:  LanguageSettings.french.workText,
+                    postalCode: LanguageSettings.french.postalCodeText,
+                    policyText: LanguageSettings.french.policyText,
+                    buttonText: LanguageSettings.french.buttonTextJob
+                    });
+            }
+    
+       
     }
 
     render() {
+        const myIcon = (<Icon name="angle-left" size={30} color="#900" />);
+        var bt = LanguageSettings.dutch.buttonTextJob;
         return (
             <View style={newStyle.container}>
 
@@ -99,22 +123,72 @@ export default class FormTwo extends Component {
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                 </View>
 
-                <View style={newStyle.logoContainer}>
-                    <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.532, height: viewPortHeight * 0.06 }} />
-                </View>
+                <View style={newStyle.inputContainer}>
+                    <Text style={newStyle.firstName}>{this.state.workText}</Text>
+                    <View style= {newStyle.firstInputsBox}>
+                        <TextInput
+                            style={ newStyle.firstInput}
+                            placeholder=''
+                            onChangeText= { (firstNameInput) => this.setState({firstNameInput}) }
+                        />
+                        <TouchableOpacity onPress={() => this.somethingElse()}
+                            activeOpacity={0.5}
+                            style={newStyle.iconStyleNew}>
+                            <Icon
+                                containerStyle={newStyle.iconImageStyle}                               
+                                name='angle-down'
+                                type='font-awesome'
+                                color='#000'
+                                size = {40}
+                                onPress={() => console.log('hello')} /> 
 
-                <View style={newStyle.workText}>
-                    <Text style={newStyle.languageText}>{this.state.workText}</Text>
-                </View>
+                        </TouchableOpacity>
+                    </View>
+                    
 
-                <View style={newStyle.randomText}>
-                    <Text style={newStyle.rText}> {this.state.randomText}</Text>
+                    <Text style={newStyle.postalName}>{this.state.postalCode}</Text>
+                    <TextInput
+                        style={ newStyle.nameInput}
+                        placeholder=''
+                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
+                    />
+
+                    <View style={newStyle.policyStyle}> 
+                    <CheckBox  
+                                title=''  
+                                checked={this.state.checked}
+                                checkedColor='red'
+                                containerStyle={newStyle.checkBoxStyle}
+                                onPress={() => this.setState({checked: !this.state.checked})}
+                                />
+                        <Text style={newStyle.policyTextStyle}>
+                            {this.state.policyText}
+                        </Text>                    
+                    </View>
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <ButtonWelcome language={this.state.language} />
-                </View>
+                    <TouchableOpacity onPress={() => this.somethingElse()}
+                        activeOpacity={0.5}
+                        style={newStyle.iconStyle}>
+                            <Icon
+                                containerStyle={newStyle.iconImageStyle}                               
+                                name='angle-left'
+                                type='font-awesome'
+                                color='#fff'
+                                size = {40}
+                                onPress={() => console.log('hello')} /> 
+                    </TouchableOpacity>
 
+                    <TouchableOpacity onPress={() => this.somethingElse()}
+                        activeOpacity={0.5}
+                        style={newStyle.buttonStyle}>
+                        <Text style={newStyle.buttonTextStyle}>
+                                {LanguageSettings.dutch.buttonTextJob.toUpperCase()}
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
             </View>
         );
     }
@@ -133,82 +207,184 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.45,
-        flex: 10,
-        backgroundColor: 'steelblue',
+        height: viewPortHeight * 0.50,
+        flex: 13,
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
-    logoContainer: {
+    firstInputsBox: {
         width: viewPortWidth,
-        height: 50,
-        flex: 2,
+        height: 70,
+        flex: 1,
+        flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center',                
+        marginBottom: 10,        
     },
 
-    languageTextContainer: {
-        width: viewPortWidth,
-        height: 50,
-        flex: 2,
+    inputContainer: {
         backgroundColor: 'white',
-        justifyContent: 'flex-end'
+        marginTop: 20,
+        padding: 15,
+        paddingTop: 15,
+        flex: 18,
+        height: 200,
     },
 
-    workText: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        flex: 4,
-        flexDirection: 'column',
-        height: 50,
-        width: viewPortWidth * 0.40,
-    },
-
-    languageText: {
-        width: 316,
-        height: 68,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 28,
-        fontWeight: '500',
-        color: '#e73d50',
-        fontStyle: 'normal',
-        lineHeight: 34,
-        letterSpacing: 0,
-        textAlign: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        marginLeft: 15,
-        marginRight: 15,
-    },
-
-    rText: {
-        width: 276,
+    iconStyle: {
+        width: 57,
         height: 57,
-        fontFamily: 'WorkSans-Medium',
+        borderRadius: 8,
+        backgroundColor: '#fad704',
+        marginTop: viewPortHeight / 80,
+        marginRight: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    iconStyleNew: {
+        width: 57,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginLeft: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    iconStyleText: {
+        width: 14,
+        height: 34,
+        fontFamily: 'FontAwesome',
+        fontSize: 34,
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        color: '#ffffff',
+        letterSpacing: 1.42,
+        textAlign: 'center'
+    },
+
+    firstName: {
+        width: 159,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
+        fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
-        textAlign: 'center',
+        textAlign: 'left',
+        marginBottom: 5,
+        marginTop: 5,
+        marginLeft: 15,
     },
 
+    postalName:{
+        width: 159,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginLeft: 15,
+        marginBottom: 10,
+    },
+
+    firstInput: {
+        width: 270,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        padding: 10,
+    },
+
+    nameInput: {
+        width: 334,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginBottom: 15,
+        padding: 10,
+        marginLeft: 15,
+    },
 
     buttons: {
-        width: viewPortWidth * 0.98,
-        height: 157,
-        flex: 10,
+        width: viewPortWidth,
+        height: 50,
+        flex: 8,
+        flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 25,
-        marginRight: 25,
-        marginBottom: viewPortHeight * 0.10,
+        alignItems: 'center',        
     },
+
+    buttonStyle: {
+        width: 266,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#e73d50',
+        marginTop: viewPortHeight / 80,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    buttonTextStyle: {
+        width: 266,
+        height: 19,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        color: '#ffffff',
+        letterSpacing: 0.67,
+        textAlign: 'center'
+    },
+
+    checkBoxStyle: {
+        width: 25,
+        height: 30,
+        backgroundColor: 'white',
+        borderColor: 'white',
+        padding: 0,
+
+    },
+
+    policyStyle: {
+        width: viewPortWidth,
+        height: 105,
+        flex: 1,
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        marginTop: 10,
+        paddingLeft: 5
+        
+    },
+
+     policyTextStyle: {
+         width: 310,
+         height: 85,
+         fontFamily: 'WorkSans-Regular',
+         fontSize: 16,
+         fontWeight: 'normal',
+         fontStyle: 'normal',
+         letterSpacing: 0,
+         textAlign: 'left',
+         marginTop: 5,
+         padding: 0,
+     },
+
+     iconImageStyle:{
+         backgroundColor: 'black',
+         width: 50,
+         height: 50
+     }
 
 });
 
-WelcomeScreen.propTypes = {
+FormTwo.propTypes = {
     language: PropTypes.string.isRequired
 }

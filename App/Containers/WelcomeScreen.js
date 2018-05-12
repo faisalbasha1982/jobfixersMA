@@ -103,8 +103,8 @@ export default class WelcomeScreen extends Component {
                     <Image source={logoHeader} resizeMode="contain" style={{ width: viewPortWidth * 0.532, height: viewPortHeight * 0.06 }} />
                 </View>
 
-                <View style={newStyle.workText}>
-                    <Text style={newStyle.languageText}>{this.state.workText}</Text>
+                <View style={newStyle.workingText}>
+                    <Text style={newStyle.languageText}>{this.state.workText +'\n' + this.state.moreText}</Text>
                 </View>
 
                 <View style={newStyle.randomText}>
@@ -134,8 +134,8 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.45,
-        flex: 10,
-        backgroundColor: 'steelblue',
+        flex: 29,
+        backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -143,9 +143,12 @@ const newStyle = StyleSheet.create({
     logoContainer: {
         width: viewPortWidth,
         height: 50,
-        flex: 2,
+        flex: 8,
+        padding: 20,
+        paddingBottom: 10,
+        marginTop: 25,
         backgroundColor: 'white',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
     },
 
@@ -157,14 +160,16 @@ const newStyle = StyleSheet.create({
         justifyContent: 'flex-end'
     },
 
-    workText: {
+    workingText: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
-        flex: 4,
+        flex: 5,
         flexDirection: 'column',
-        height: 50,
-        width: viewPortWidth * 0.40,
+        height: viewPortHeight * 0.40,
+        width: viewPortWidth,
+        padding: 17,
+        margin: 50,
     },
 
     languageText: {
@@ -184,6 +189,15 @@ const newStyle = StyleSheet.create({
         marginRight: 15,
     },
 
+    randomText: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        backgroundColor: 'white',
+        flex: 8,
+        flexDirection: 'column',
+        marginTop: 10,
+    },
+
     rText: {
         width: 276,
         height: 57,
@@ -196,15 +210,17 @@ const newStyle = StyleSheet.create({
 
 
     buttons: {
-        width: viewPortWidth * 0.98,
+        width: viewPortWidth,
         height: 157,
         flex: 10,
         backgroundColor: 'white',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        marginLeft: 25,
+        marginLeft: 15,
         marginRight: 25,
-        marginBottom: viewPortHeight * 0.10,
+        marginTop: 35,        
+        marginBottom:  10,
+        paddingTop: 20,
     },
 
 });

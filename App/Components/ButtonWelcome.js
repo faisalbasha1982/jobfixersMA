@@ -13,26 +13,17 @@ export default class ButtonWelcome extends Component {
     super(props);
 
     this.state = {
-      languageText: LanguageSettings.dutch.buttonText,
+      text: '',
     };
   }
 
   componentDidMount()
   {
-    if(this.props.language === 'NEDERLANDS')    
-       this.setState({ languageText: LanguageSettings.dutch.buttonText });
-  else
-      if(this.props.language === 'ENGLISH')    
-        this.setState({ languageText: LanguageSettings.english.buttonText });
-      else
-        this.setState({ languageText: LanguageSettings.french.buttonText });
+    console.log("received prop="+this.props.text);
+    this.setState({ text: this.props.text });
   }
 
   setlanguage = () => {
-
-    console.log("language=",this.props.language);
-
-
   }
 
   somethingElse = () => {
@@ -68,12 +59,12 @@ export default class ButtonWelcome extends Component {
                 marginTop: 20,                
                 letterSpacing: 0.67,
                 textAlign: 'center'}}
-        > {this.state.languageText.toUpperCase()}</Text>
+        > {this.state.text.toUpperCase()}</Text>
         </TouchableOpacity>
       );
   }
 }
 
 Button.propTypes = {
-    language: PropTypes.string.isRequired
+    text: PropTypes.string.isRequired,
 }
