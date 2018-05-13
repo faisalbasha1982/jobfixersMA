@@ -15,23 +15,43 @@ class LanguageButton extends Component {
     super(props);
 
     this.state = {
-      languageText: '',
+      languageText: undefined,
     };
   }
 
-  setlanguage = () => {
-
-    // navigate('WelcomeScreen', {language: this.props.language})
+  componentWillReceiveProps (nextProps) {
+    console.log("nextProps.language="+nextProps.language)
+    if (nextProps.language !== this.props.language) {
+      this.setState({
+        languageText: nextProps.language,
+      })
+    }
   }
 
-  //         width: (viewPortWidth * 41) / 46,
+  componentDidMount()
+  {
+    console.log("languagebutton component called with received props="+this.props.language);
+    this.setLanguage();
+    console.log("set languageText="+this.state.languageText);
+  }
+
+  setLanguage = () => {
+      console.log("going to set Language");
+      this.setState({languageText: this.props.language },()=> console.log("changes to customer state"));
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    return nextState.languageText != this.state.languageText;
+ }
+
+  // width: (viewPortWidth * 41) / 46,
   // height: viewPortHeight / 11,
 
   render() {
-    const { navigate } = this.props.navigation;
+    console.log("this.props.language="+this.props.language);
     return (
       <Button
-        onPress={() => { this.setlanguage }}
+        onPress={() => {this.props.onButtonPress(this.props.language)}}
         activeOpacity={0.5}
         style={{
           height: "20.5%",
@@ -92,6 +112,7 @@ const mapDispatchToProps = dispatch => {
 
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+    onButtonPress: (language) => dispatch(NavigationActions.navigate({routeName: 'WelcomeScreen',params: {language: language }})),
     navigateBack: () => dispatch(NavigationActions.back()),
 
   };

@@ -14,6 +14,7 @@ import {
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import ButtonNext from '../Components/ButtonNext';
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
@@ -36,45 +37,56 @@ const viewPortWidth = Dimensions.get('window').width;
 
 // Styles
 
+let cLanguage = '';
+
 export default class FormOne extends Component {
+
+    static propTypes = {
+        language: PropTypes.string.isRequired
+    }
 
     constructor(props)
     {
-        super(props);        
+        super(props);             
+
+        this.state = {
+            language: 'NEDERLANDS',
+            firstName:'',
+            name:'',
+            phoneNumber:'',
+            firstNameInput:'',
+            lastNameInput:'',
+            phoneNumberInput:'',
+            buttonText: '',
+        };
+    
     }
 
-    state = {
-        language: 'NEDERLANDS',
-        firstName:'',
-        name:'',
-        phoneNumber:'',
-        firstNameInput:'',
-        lastNameInput:'',
-        phoneNumberInput:'',
-        buttonText: '',
-    };
 
-    componentWillReceiveProps(props) {
-        if (this.state.language !== this.props.language) {
-            this.setState({ language: this.props.language });
+    componentWillReceiveProps(nextProps) {
+        console.log("in Form One screen language received="+nextProps.language);
+        if (this.prpps.language !== nextProps.language) {
+            this.setState({ language: nextProps.language });
             this.setText();
         }
     }
 
     componentDidMount() {
+        console.log("language from props="+this.props.navigation.state.params.language);
         console.log("default language="+this.state.language);
-        this.setState({ language: this.props.language });
+        cLanguage = this.props.navigation.state.params.language;
+        this.setState({ language: cLanguage });
         console.log("language="+this.state.language);
         this.setText();
         console.log("this.state.firstName="+this.state.firstName);
         console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    setText = async () => {
+    setText =  () => {
 
         console.log("this.state.language="+this.state.language);
 
-        if (this.state.language === 'NEDERLANDS') {
+        if (this.props.navigation.state.params.language === 'NEDERLANDS') {
             console.log("setting in Nederlands");
             this.setState({
                 firstName:  LanguageSettings.dutch.firstNameText,
@@ -84,7 +96,7 @@ export default class FormOne extends Component {
             });
         }
         else
-            if (this.state.language === 'ENGLISH') {
+            if (this.props.navigation.state.params.language === 'ENGLISH') {
                 console.log("setting in English");
                 this.setState({
                     firstName:  LanguageSettings.english.firstNameText,
@@ -131,7 +143,7 @@ export default class FormOne extends Component {
                         onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
                     />
 
-                    <Text style={newStyle.firstName}>{this.state.phoneNumber}</Text>
+                    <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
@@ -141,7 +153,14 @@ export default class FormOne extends Component {
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <ButtonWelcome text={LanguageSettings.dutch.buttonNextText} />
+                    <ButtonNext objectParams=
+                                {{
+                                    btnText: this.state.buttonText, 
+                                    language: this.props.navigation.state.params.language,
+                                    firstName: this.state.firstName,
+                                    lastName: this.state.name,
+                                    phoneNumber: this.state.phoneNumber,
+                                }}/>
                 </View>
 
             </View>
@@ -188,6 +207,19 @@ const newStyle = StyleSheet.create({
         marginBottom: 15
     },
 
+    phoneNumberStyle: {
+        width: 159,
+        height: 22,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 16,
+        fontWeight: '500',
+        fontStyle: 'normal',
+        letterSpacing: 0.67,
+        textAlign: 'left',
+        marginBottom: 15
+
+    },
+
     nameInput: {
         width: 334,
         height: 57,
@@ -212,6 +244,3 @@ const newStyle = StyleSheet.create({
 
 });
 
-FormOne.propTypes = {
-    language: PropTypes.string.isRequired
-}

@@ -18,6 +18,7 @@ import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import ButtonWelcome from '../Components/ButtonWelcome';
+import { NavigationActions } from "react-navigation";
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
 import DeviceInfo from 'react-native-device-info'
@@ -39,7 +40,7 @@ const viewPortWidth = Dimensions.get('window').width;
 
 // Styles
 
-export default class FormTwo extends Component {
+class FormTwo extends Component {
 
     constructor(props)
     {
@@ -60,27 +61,27 @@ export default class FormTwo extends Component {
 
     }
 
-    componentWillReceiveProps(props) {
-        if (this.state.language !== this.props.language) {
-            this.setState({ language: this.props.language });
+    componentWillReceiveProps(nextProps) {
+        if (this.props.navigation.state.params.objectParams !== nextProps.objectParams) {
+            this.setState({ language: this.props.navigation.state.params.objectParams.language });
             this.setText();
         }
     }
 
     componentDidMount() {
-        console.log("default language="+this.state.language);
-        this.setState({ language: this.props.language });
+        console.log("default language="+this.props.navigation.state.params.objectParams.language);
+        this.setState({ language: this.props.navigation.state.params.objectParams.language });
         console.log("language="+this.state.language);
         this.setText();
         console.log("this.state.firstName="+this.state.firstName);
         console.log("this.state.buttonText="+this.state.buttonText);
     }
 
-    setText = async () => {
+    setText = () => {
 
         console.log("this.state.language="+this.state.language);
 
-        if (this.state.language === 'NEDERLANDS') {
+        if (this.props.navigation.state.params.objectParams.language === 'NEDERLANDS') {
             console.log("setting in Nederlands");
             this.setState({
                 workText:  LanguageSettings.dutch.workText,
@@ -90,7 +91,7 @@ export default class FormTwo extends Component {
             });
         }
         else
-            if (this.state.language === 'ENGLISH') {
+            if (this.props.navigation.state.params.objectParams.language === 'ENGLISH') {
                 console.log("setting in English");
                 this.setState({
                     workText:  LanguageSettings.english.workText,
@@ -180,11 +181,11 @@ export default class FormTwo extends Component {
                                 onPress={() => console.log('hello')} /> 
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.somethingElse()}
+                    <TouchableOpacity onPress={() => this.props.onButtonPress()}
                         activeOpacity={0.5}
                         style={newStyle.buttonStyle}>
                         <Text style={newStyle.buttonTextStyle}>
-                                {LanguageSettings.dutch.buttonTextJob.toUpperCase()}
+                                {this.state.buttonText.toUpperCase()}
                         </Text>
                     </TouchableOpacity>
 
@@ -388,3 +389,20 @@ const newStyle = StyleSheet.create({
 FormTwo.propTypes = {
     language: PropTypes.string.isRequired
 }
+
+const mapStateToProps = state => {
+    return {
+    };
+  };
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+  
+      resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+      navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+      navigateBack: () => dispatch(NavigationActions.back()),
+      onButtonPress: () => dispatch(NavigationActions.navigate({routeName: 'ThankYouScreen'})),
+    };
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(FormTwo);

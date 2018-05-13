@@ -24,10 +24,11 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'ThankYouScreen',
+  initialRouteName: 'NewScreen',
+  mode: "card",
   navigationOptions: {
     headerStyle: styles.header
   }
 })
 
-export default PrimaryNav
+export default PrimaryNav;

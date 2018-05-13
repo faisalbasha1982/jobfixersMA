@@ -12,13 +12,16 @@ const viewPortHeight = Dimensions.get('window').height;
 
 let clanguage = '';
 
-class ButtonWelcome extends Component {
+class ButtonNext extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       text: '',
       language:'',
+      firstName:'',
+      lastName: '',
+      phoneNumber:'',      
     };
   }
 
@@ -27,8 +30,11 @@ class ButtonWelcome extends Component {
 
     if (nextProps.objectParams !== this.props.objectParams) {
       this.setState({
-        text: nextProps.objectParams.btnText,        
+        text: nextProps.objectParams.btnText,
         language: nextProps.objectParams.language,
+        firstName: nextProps.objectParams.firstName,
+        lastName: nextProps.objectParams.lastName,
+        phoneNumber: nextProps.objectParams.phoneNumber,
       });
 
       clanguage = this.props.objectParams.language;
@@ -41,7 +47,14 @@ class ButtonWelcome extends Component {
     console.log("received props from NewScreen ="+this.props.objectParams);
     console.log("received props from NewScreen language ="+this.props.objectParams.language);
     clanguage = this.props.objectParams.language;
-    this.setState({ text: this.props.objectParams.btnText, language: this.props.objectParams.language });
+
+    this.setState({ 
+                    text: this.props.objectParams.btnText, 
+                    language: this.props.objectParams.language,
+                    firstName: this.props.objectParams.firstName,
+                    lastName: this.props.objectParams.lastName,
+                    phoneNumber: this.props.objectParams.phoneNumber, 
+    });
   }
 
   setlanguage = () => {
@@ -57,7 +70,7 @@ class ButtonWelcome extends Component {
   render() {
       return (
         <TouchableOpacity
-        onPress={() => this.props.onButtonPress(clanguage) }
+        onPress={() => this.props.onButtonPress(this.state.text,clanguage,this.state.firstName,this.state.lastName,this.state.phoneNumber) }
           activeOpacity={0.5}
           style={{
             width: 333,
@@ -86,7 +99,7 @@ class ButtonWelcome extends Component {
   }
 }
 
-ButtonWelcome.propTypes = {
+ButtonNext.propTypes = {
     text: PropTypes.string.isRequired,
     language: PropTypes.string.isRequired,
 }
@@ -102,9 +115,15 @@ const mapDispatchToProps = dispatch => {
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => dispatch(NavigationActions.back()),
-    onButtonPress: (language) => dispatch(NavigationActions.navigate({routeName: 'FormOne',params: {language: language }})),
+    onButtonPress: (text,language,firstName,lastName,phoneNumber) => dispatch(NavigationActions.navigate({routeName: 'FormTwo',params: {objectParams: {
+        text: text,
+        language: language,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,      
+    } }})),
 
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonWelcome);
+export default connect(mapStateToProps, mapDispatchToProps)(ButtonNext);

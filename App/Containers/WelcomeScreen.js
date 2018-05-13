@@ -35,37 +35,53 @@ const viewPortWidth = Dimensions.get('window').width;
 
 // Styles
 
+let languageGlobal = '';
+
 export default class WelcomeScreen extends Component {
 
     constructor(props)
     {
         super(props);        
+
+        this.state = {
+            language: 'NEDERLANDS',
+            workText: '',
+            moreText: '',
+            randomText: '',
+            buttonText: '',
+        };
+    
     }
 
-    state = {
-        language: 'NEDERLANDS',
-        workText: '',
-        moreText: '',
-        randomText: '',
-        buttonText: '',
-    };
+    getMoreText = () => {
+        return this.state.moreText;
+    }
 
-    componentWillReceiveProps(props) {
-        if (this.state.language !== this.props.language) {
-            this.setState({ language: this.props.language });
-            this.setText();
+    componentWillReceiveProps(nextProps) {
+
+        console.log("Will receive props="+nextProps.language);
+        if (nextProps.language !== this.props.language) {
+          this.setState({
+            language: nextProps.language,
+          });
         }
-    }
-
+        setTimeout( () => setText(),5000);
+      }
+    
     componentDidMount() {
-        console.log("language="+this.state.language);
-        this.setState({ language: this.props.language });
+        console.log("Welcome screen received props componentDidMount ="+this.props.navigation.state.params.language);
+        () => this.setState({ language: this.props.navigation.state.params.language });
         this.setText();
     }
 
     setText = () => {
 
-        if (this.state.language === 'NEDERLANDS') {
+        console.log("set Text being called ="+this.props.navigation.state.params.language);
+        console.log("state language="+ this.state.language)
+
+        languageGlobal = this.props.navigation.state.params.language;
+
+        if (languageGlobal === 'NEDERLANDS') {
             this.setState({
                 workText: LanguageSettings.dutch.welcomeTextRed,
                 moreText: LanguageSettings.dutch.welcomeTextMore,
@@ -74,10 +90,10 @@ export default class WelcomeScreen extends Component {
             });
         }
         else
-            if (this.state.language === 'ENGLISH') {
+            if (languageGlobal === 'ENGLISH') {
                 this.setState({
                     workText: LanguageSettings.english.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
+                    moreText: LanguageSettings.english.welcomeTextMore,
                     randomText: LanguageSettings.english.welcomeTextGray,
                     buttonText: LanguageSettings.english.buttonText
                 });
@@ -85,13 +101,15 @@ export default class WelcomeScreen extends Component {
             else
                 this.setState({
                     workText: LanguageSettings.french.welcomeTextRed,
-                    moreText: LanguageSettings.dutch.welcomeTextMore,
+                    moreText: LanguageSettings.french.welcomeTextMore,
                     randomText: LanguageSettings.french.welcomeTextGray,
                     buttonText: LanguageSettings.french.buttonText
                 });
     }
 
     render() {
+        console.log("this.state.moreText="+ this.getMoreText());
+        console.log("this.state.buttonText="+this.state.buttonText);
         return (
             <View style={newStyle.container}>
 
@@ -104,7 +122,8 @@ export default class WelcomeScreen extends Component {
                 </View>
 
                 <View style={newStyle.workingText}>
-                    <Text style={newStyle.languageText}>{this.state.workText +'\n' + this.state.moreText}</Text>
+                    <Text style={newStyle.languageText}>{this.state.workText }</Text>
+                    <Text style={newStyle.languageText}>{this.state.moreText }</Text>
                 </View>
 
                 <View style={newStyle.randomText}>
@@ -112,7 +131,7 @@ export default class WelcomeScreen extends Component {
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <ButtonWelcome language={this.state.language} />
+                    <ButtonWelcome objectParams= { {btnText: this.state.buttonText, language: this.props.navigation.state.params.language}  } />
                 </View>
 
             </View>
@@ -134,7 +153,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.45,
-        flex: 29,
+        flex: 35,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -152,42 +171,54 @@ const newStyle = StyleSheet.create({
         alignItems: 'center',
     },
 
-    languageTextContainer: {
-        width: viewPortWidth,
-        height: 50,
-        flex: 2,
-        backgroundColor: 'white',
-        justifyContent: 'flex-end'
-    },
-
     workingText: {
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: 'white',
-        flex: 5,
+        flex: 12,
         flexDirection: 'column',
-        height: viewPortHeight * 0.40,
+        height: viewPortHeight * 0.90,
         width: viewPortWidth,
-        padding: 17,
+        padding: 0,
         margin: 50,
     },
 
     languageText: {
         width: 316,
-        height: 68,
+        height: 30,
         fontFamily: 'WorkSans-Regular',
-        fontSize: 28,
+        fontSize: 25,
         fontWeight: '500',
         color: '#e73d50',
         fontStyle: 'normal',
         lineHeight: 34,
         letterSpacing: 0,
         textAlign: 'center',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
+        flexDirection: 'column',        
         marginLeft: 15,
         marginRight: 15,
+        marginTop: 0,
+        marginBottom: 0,
     },
+
+    languageTextBelow: {
+        width: 316,
+        height: 35,
+        fontFamily: 'WorkSans-Regular',
+        fontSize: 25,
+        fontWeight: '500',
+        color: '#e73d50',
+        fontStyle: 'normal',
+        lineHeight: 34,
+        letterSpacing: 0,
+        textAlign: 'auto',
+        flexDirection: 'column',        
+        marginLeft: 15,
+        marginRight: 15,
+        marginTop: 0,
+        marginBottom: 0,
+    },
+
 
     randomText: {
         justifyContent: 'flex-end',
@@ -225,6 +256,7 @@ const newStyle = StyleSheet.create({
 
 });
 
+
 WelcomeScreen.propTypes = {
-    language: PropTypes.string.isRequired
+    language: PropTypes.string.isRequired,
 }
