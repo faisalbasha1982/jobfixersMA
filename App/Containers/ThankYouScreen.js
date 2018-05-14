@@ -52,22 +52,22 @@ export default class ThankYouScreen extends Component {
         buttonText: '',
     };
 
-    componentWillReceiveProps(props) {
-        if (this.state.language !== this.props.language) {
-            this.setState({ language: this.props.language });
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.language !== this.props.navigation.state.params.language) {
+            this.setState({ language: nextProps.language });
             this.setText();
         }
     }
 
     componentDidMount() {
         console.log("language="+this.state.language);
-        this.setState({ language: this.props.language });
+        this.setState({ language: this.props.navigation.state.params.language });
         this.setText();
     }
 
     setText = () => {
 
-        if (this.state.language === 'NEDERLANDS') {
+        if (this.props.navigation.state.params.language === 'NEDERLANDS') {
             this.setState({
                 thankYouText: LanguageSettings.dutch.thankYouText,
                 thankYouTextOne: LanguageSettings.dutch.thankYouTextOne,
@@ -77,7 +77,7 @@ export default class ThankYouScreen extends Component {
             });
         }
         else
-            if (this.state.language === 'ENGLISH') {
+            if (this.props.navigation.state.params.language === 'ENGLISH') {
                 this.setState({
                     thankYouText: LanguageSettings.english.thankYouText,
                     thankYouTextOne: LanguageSettings.english.thankYouTextOne,
@@ -207,7 +207,7 @@ const newStyle = StyleSheet.create({
 
     languageText: {
         width: 316,
-        height: 120,
+        height: 140,
         fontFamily: 'WorkSans-Regular',
         fontSize: 28,
         fontWeight: '500',
@@ -232,7 +232,7 @@ const newStyle = StyleSheet.create({
     },
 
     rText: {
-        width: 128,
+        width: 148,
         height: 25,
         fontFamily: 'WorkSans-Medium',
         fontSize: 20,

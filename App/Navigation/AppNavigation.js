@@ -6,6 +6,7 @@ import NewScreen from '../Containers/NewScreen';
 import WelcomeScreen from '../Containers/WelcomeScreen';
 import FormOne from '../Containers/FormOne';
 import FormTwo from '../Containers/FormTwo';
+import FormTwoNew from '../Containers/FormTwoNew';
 import ThankYouScreen from '../Containers/ThankYouScreen';
 
 import styles from './Styles/NavigationStyles';
@@ -19,6 +20,7 @@ const PrimaryNav = StackNavigator({
   WelcomeScreen: { screen: WelcomeScreen },
   FormOne: { screen: FormOne },
   FormTwo: { screen: FormTwo },
+  FormTwoNew: { screen: FormTwoNew},
   ThankYouScreen : { screen: ThankYouScreen }
 
 }, {

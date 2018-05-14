@@ -53,7 +53,6 @@ const userCountryData = getAllCountries()
 let callingCode = null;
 let cca2 = userLocaleCountryCode;
 
-
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
  
 
@@ -447,7 +446,7 @@ aes  = (authenticationData) => {
       <View style={{ flex: 10, flexDirection: 'column', justifyContent: 'center', marginTop: 40, }}>
         <View style={{ flex: 5, flexDirection: 'column', justifyContent: 'center', width: "80%", marginLeft: 35 }}>
           <Dropdown 
-                  label={lbl} 
+                  label={lbl}
                   data={this.state.data} ref={this.nicheRef} 
                   valueExtractor = {({value}) => value}
                   onChangeText={(value)=> { this.onChangeTextPress(value) }}

@@ -22,7 +22,7 @@ import { NavigationActions } from "react-navigation";
 import LanguageButton from '../Components/LanguageButton';
 import { Dropdown } from 'react-native-material-dropdown';
 import Spinner from "react-native-loading-spinner-overlay";
-import DeviceInfo from 'react-native-device-info'
+import DeviceInfo from 'react-native-device-info';
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
@@ -33,6 +33,7 @@ import { CountryCodes } from './CountryCodes';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
+import DropdownMenu from 'react-native-dropdown-menu';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -40,7 +41,6 @@ import { Images } from '../Themes';
 import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/logojobfixersNew.png';
-import PopupMenu from './PopupMenu';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -61,7 +61,7 @@ const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 // Styles
 
-class FormTwo extends Component {
+class FormTwoNew extends Component {
 
     constructor(props)
     {
@@ -90,6 +90,23 @@ class FormTwo extends Component {
             time: '',
             selected:'',
             eAuthData:'',
+            options: [
+                {
+                  label: 'News'
+                },
+                {
+                  label: 'Design'
+                },
+                {
+                  label: 'Sales'
+                },
+                {
+                  label: 'Marketing'
+                },
+                {
+                  label: 'Customer Success'
+                }
+              ],          
             data: [
                 {
                   value: 'Construction Worker',
@@ -403,93 +420,77 @@ class FormTwo extends Component {
        
     }
 
+    arrowDropDown = () => {
+
+            // let { baseColor: backgroundColor } = this.props;
+            // let triangleStyle = { backgroundColor };
+        
+            return (
+
+            //   <View style={styles.accessory}>
+            //     <View style={styles.triangleContainer}>
+            //       <View style={[styles.triangle, triangleStyle]} />
+            //     </View>
+            //   </View>
+
+            <TouchableOpacity onPress={() => {}}
+                    activeOpacity={0.5}
+                    style={newStyle.iconStyleNew}>
+                    <Icon
+                        containerStyle={newStyle.iconImageStyle}                               
+                        name='angle-down'
+                        type='font-awesome'
+                        color='#000'
+                        size = {40}
+                    /> 
+            </TouchableOpacity>
+
+            );          
+    }
+
     render() {
-        const myIcon = (<Icon name="angle-left" size={30} color="#900" />);
-        var bt = LanguageSettings.dutch.buttonTextJob;
-        const lbl = '';
         return (
             <View style={newStyle.container}>
-
-                <View style={newStyle.headerImage}>
-                    <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+                <View style={newStyle.headerImageStyle}>
+                        <Image source={logoNew} resizeMode="contain" style={{ margin: 0, padding:0, width: viewPortWidth, height: viewPortHeight * 0.42 }} />
                 </View>
+                <View style={{width: viewPortWidth, height: 50, flex: 1, backgroundColor: 'white'}}>
+                    <Dropdown
+                            label=''
+                            containerStyle={newStyle.inputStyle}
+                            data={this.state.data}
+                    />
+                {/* <DropdownMenu
+                        style={{flex: 1, borderRadius: 8, width: viewPortWidth* 0.75, height: 50}}
+                        bgColor={'#f6f6f6'}
+                        tintColor={'#666666'}
+                        activityTintColor={'green'}
+                        arrowImg={}      
+                        // checkImage={}   
+                        // optionTextStyle={{color: '#333333'}}
+                        // titleStyle={{color: '#333333'}} 
+                        // maxHeight={300} 
+                        handler={(selection, row) => this.setState({text: data[selection][row]})}
+                        data={data}> 
+                </DropdownMenu> */}
 
-                <View style={newStyle.inputContainer}>
-                    <Text style={newStyle.firstName}>{this.state.workText}</Text>
-                    <View style= {newStyle.dropDownStyle}>
-
-                            {/* valueExtractor = {({value}) => value}
-                            onChangeText={(value)=> { this.onChangeTextPress(value) }} */}
+                    {/* <TouchableOpacity
+                        activeOpacity={0.5}
+                        style={newStyle.inputStyle}>
+                        <ModalDropdown 
+                            options={['option 1', 'option 2']} 
+                        />
+                    </TouchableOpacity> */}
 
                         {/* <Dropdown
+                            valueExtractor = {({value}) => value}
+                            onChangeText={(value)=> { this.onChangeTextPress(value) }}
                             containerStyle= {newStyle.dropDownS}                         
                             data={this.state.data} ref={this.nicheRef}
                         /> */}
-
-                        <TextInput
-                            style={ newStyle.firstInput}
-                            placeholder=''
-                            onChangeText= { (firstNameInput) => this.setState({firstNameInput}) }
-                        /> 
-                         <TouchableOpacity onPress={() => this.somethingElse()}
-                            activeOpacity={0.5}
-                            style={newStyle.iconStyleNew}>
-                            <Icon
-                                containerStyle={newStyle.iconImageStyle}                               
-                                name='angle-down'
-                                type='font-awesome'
-                                color='#000'
-                                size = {40}
-                            /> 
-
-                        </TouchableOpacity>
-                    </View>
-                    
-
-                    <Text style={newStyle.postalName}>{this.state.postalCode}</Text>
-                    <TextInput
-                        style={ newStyle.nameInput}
-                        placeholder=''
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
-                    />
-
-                    <View style={newStyle.policyStyle}> 
-                    <CheckBox  
-                                title=''  
-                                checked={this.state.checked}
-                                checkedColor='red'
-                                containerStyle={newStyle.checkBoxStyle}
-                                onPress={() => this.setState({checked: !this.state.checked})}
-                                />
-                        <Text style={newStyle.policyTextStyle}>
-                            {this.state.policyText}
-                        </Text>                    
-                    </View>
                 </View>
-
-                <View style={newStyle.buttons}>
-                    <TouchableOpacity onPress={() => this.somethingElse()}
-                        activeOpacity={0.5}
-                        style={newStyle.iconStyle}>
-                            <Icon
-                                containerStyle={newStyle.iconImageStyle}                               
-                                name='angle-left'
-                                type='font-awesome'
-                                color='#fff'
-                                size = {40}
-                                onPress={() => console.log('hello')} /> 
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => this.props.onButtonPress(this.state.language)}
-                        activeOpacity={0.5}
-                        style={newStyle.buttonStyle}>
-                        <Text style={newStyle.buttonTextStyle}>
-                                {this.state.buttonText.toUpperCase()}
-                        </Text>
-                    </TouchableOpacity>
-
-                </View>
-            </View>
+                <View style={{width: viewPortWidth, height: 150, flex: 1, backgroundColor: 'steelblue'}} />
+              </View>
         );
     }
 
@@ -501,213 +502,46 @@ const newStyle = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        margin:0,
+        padding:0, 
     },
 
-    headerImage: {
+    headerImageStyle: {
         width: viewPortWidth,
         height: viewPortHeight * 0.50,
-        flex: 13,
+        flex: 1,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-
-    firstInputsBox: {
-        width: viewPortWidth,
-        height: 70,
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',                
-        marginBottom: 10,        
-    },
-
-    dropDownStyle: {
-        width: viewPortWidth,
-        height: 110,
-        flex: 3,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',                
-        marginBottom: 10,        
     },
 
     dropDownS:{
-        width: 150,
-        height: 110,
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'powderblue',
-        justifyContent: 'center',
-        alignItems: 'center',                
-        marginBottom: 10,        
-    },
-
-    inputContainer: {
-        backgroundColor: 'white',
-        marginTop: 20,
-        padding: 15,
-        paddingTop: 15,
-        flex: 18,
-        height: 200,
-    },
-
-    iconStyle: {
-        width: 57,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#fad704',
-        marginTop: viewPortHeight / 80,
-        marginRight: 15,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconStyleNew: {
-        width: 57,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginLeft: 15,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    iconStyleText: {
-        width: 14,
-        height: 34,
-        fontFamily: 'FontAwesome',
-        fontSize: 34,
-        fontWeight: 'normal',
-        fontStyle: 'normal',
-        color: '#ffffff',
-        letterSpacing: 1.42,
-        textAlign: 'center'
-    },
-
-    firstName: {
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginBottom: 5,
-        marginTop: 5,
-        marginLeft: 15,
-    },
-
-    postalName:{
-        width: 159,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        letterSpacing: 0.67,
-        textAlign: 'left',
-        marginLeft: 15,
-        marginBottom: 10,
-    },
-
-    firstInput: {
-        width: 270,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        padding: 10,
-    },
-
-    nameInput: {
-        width: 334,
-        height: 57,
-        borderRadius: 8,
-        backgroundColor: '#f6f6f6',
-        marginBottom: 15,
-        padding: 10,
-        marginLeft: 15,
-    },
-
-    buttons: {
-        width: viewPortWidth,
+        width: viewPortWidth * 0.90,
         height: 50,
-        flex: 8,
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',        
-    },
-
-    buttonStyle: {
-        width: 266,
-        height: 57,
         borderRadius: 8,
-        backgroundColor: '#e73d50',
-        marginTop: viewPortHeight / 80,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
-    buttonTextStyle: {
-        width: 266,
-        height: 19,
-        fontFamily: 'WorkSans-Regular',
-        fontSize: 16,
-        fontWeight: '500',
-        fontStyle: 'normal',
-        color: '#ffffff',
-        letterSpacing: 0.67,
-        textAlign: 'center'
-    },
-
-    checkBoxStyle: {
-        width: 25,
-        height: 30,
-        backgroundColor: 'white',
-        borderColor: 'white',
-        padding: 0,
-
-    },
-
-    policyStyle: {
-        width: viewPortWidth,
-        height: 105,
-        flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'white',
-        marginTop: 10,
-        paddingLeft: 5
-        
+        backgroundColor: '#f6f6f6', 
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        padding: 5,       
+        margin: 5,
     },
 
-     policyTextStyle: {
-         width: 310,
-         height: 85,
-         fontFamily: 'WorkSans-Regular',
-         fontSize: 16,
-         fontWeight: 'normal',
-         fontStyle: 'normal',
-         letterSpacing: 0,
-         textAlign: 'left',
-         marginTop: 5,
-         padding: 0,
-     },
-
-     iconImageStyle:{
-         backgroundColor: 'black',
-         width: 50,
-         height: 50
-     }
+    inputStyle: {
+        width: viewPortWidth * 0.90,
+        height: 50,
+        borderRadius: 8,
+        flexDirection: 'row',
+        backgroundColor: '#f6f6f6', 
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        padding: 5,       
+        margin: 5,
+    }
 
 });
 
-FormTwo.propTypes = {
+FormTwoNew.propTypes = {
     language: PropTypes.string.isRequired
 }
 
@@ -726,4 +560,4 @@ const mapStateToProps = state => {
     };
   };
   
-  export default connect(mapStateToProps, mapDispatchToProps)(FormTwo);
+  export default connect(mapStateToProps, mapDispatchToProps)(FormTwoNew);
