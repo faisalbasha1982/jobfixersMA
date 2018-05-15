@@ -9,6 +9,7 @@ import {
     Dimensions,
     TextInput,
     PixelRatio,
+    ActivityIndicator,
     Alert
 } from 'react-native';
 import { CheckBox } from 'react-native-elements';
@@ -33,6 +34,8 @@ import { CountryCodes } from './CountryCodes';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
+import DropdownMenu from './DropDownMenu';
+import Validation from '../Components/ButtonValidation';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -79,7 +82,10 @@ class FormTwo extends Component {
             language: 'NEDERLANDS',
             workText: '',
             postalCode: '',
+            postalCodeInput: '',
+            postalCodeError: true,
             policyText: '',
+            policyTextColor: '#000',
             buttonText: '',
             checked: false,
             cca2:'',
@@ -90,17 +96,18 @@ class FormTwo extends Component {
             time: '',
             selected:'',
             eAuthData:'',
-            data: [
-                {
-                  value: 'Construction Worker',
-                },
-                {
-                  value: 'Worker',
-                },
-                {
-                  value: 'Clerk',
-                }
-              ],
+
+            // data: [
+            //     {
+            //       value: 'Construction Worker',
+            //     },
+            //     {
+            //       value: 'Worker',
+            //     },
+            //     {
+            //       value: 'Clerk',
+            //     }
+            //   ],
         };
     
     }
@@ -153,7 +160,12 @@ class FormTwo extends Component {
     }
     
     login = async () => 
-    {
+    {        
+        <View style={{ flex:1, flexDirection: 'row',
+        justifyContent: 'space-around',
+            padding: 10 }}>
+                <ActivityIndicator size="large" color="#0000ff" />
+        </View>
 
         if(this.phone === '' || this.fullName === '' || this.phone === '' || this.postalCode==='' )
             {
@@ -193,6 +205,7 @@ class FormTwo extends Component {
                     this.setState({ message: res.Message_en });
                     Alert.alert('Welcome', this.state.message);
                     this.setState({ isLogin: false, canLogin: false });
+                    this.props.onButtonPress(this.state.language);
                     this.props.clear();
                   } else {
                     console.log("message=",res.Message_en);
@@ -203,50 +216,46 @@ class FormTwo extends Component {
             }
     }
 
-    validationName = (name) => {
-        let reg = /^[a-zA-Z\s]+$/;
-    
-        if (reg.exec(name))
-        {
-          this.setState({ nameError: false, fullName: name });
-        }
+    validateCheckBox = (checked) => {        
+
+            if(checked === false)
+                this.setState({ CheckBoxError: true, ErrorText: 'CheckBox is Clicked', policyTextColor: '#e73d50' });
+            else
+                this.setState({ CheckBoxError: false, ErrorText: '', policyTextColor: '000' });
+
+    }   
+
+    validationPostalCode = (pcode) => {
+        let reg = /^[0-9]{4}$/;
+
+        if(pcode==='')
+            this.setState({ postalCodeError: true, ErrorText: 'Postal Code is Required!' });
         else
-          this.setState({ nameError: true });      
-    
+        {
+            if (reg.exec(pcode))
+                this.setState({ postalCodeError: false, postalCodeInput: pcode });
+            else
+                this.setState({ postalCodeError: true,  ErrorText: 'Postal Code is not Valid' });
+        }    
     }
 
-      validationPostalCode = (pcode) => {
-        let reg = /^[0-9]{4}$/;
-    
-        if (reg.exec(pcode))
-          this.setState({ postalCodeError: false,postalCode: pcode });
-        else
-          this.setState({ postalCodeError: true });
-    
-    }
-    
-      validatePhone = (phone) => {
-        console.log('validation phone=', phone);
-    
-        let reg = /^[0-9]{10}$/;
-    
-        // home phone number belgium
-        let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
-        // mobile phone number belgium
-        let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
-    
-        this.phoneText = this.state.country;
-    
-        if (reg.exec(phone))
-          this.setState({ phoneError: false, phone: phone });
-        else
-          this.setState({ phoneError: true });
-    
-        // if (homePhone.exec(phone))
-        //   this.setState({ phoneError: false, phone: phone });
-        // else
-        //   this.setState({ phoneError: true });
-    
+    renderValidation = () => {
+        
+        if(this.state.postalCodeError === true)
+            return (                        
+                <View style={newStyle.validationStyle}> 
+                        <Validation
+                            objectParams = 
+                            {{
+                                'btnText': this.state.ErrorText, 
+                                'language': this.props.navigation.state.params.language
+                            }}
+                        />
+                </View>
+            );
+        
+        return;
+
     }
     
     getUTCDate = () => {
@@ -403,15 +412,26 @@ class FormTwo extends Component {
        
     }
 
+    callLogin = async () =>
+    {
+        this.login();
+        //this.props.onButtonPress(this.state.language);
+    }
+
     render() {
         const myIcon = (<Icon name="angle-left" size={30} color="#900" />);
         var bt = LanguageSettings.dutch.buttonTextJob;
         const lbl = '';
+        var data = [["Construction Worker", "Worker", "Clerk",]];
+
         return (
             <View style={newStyle.container}>
 
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+                    {
+                        this.renderValidation()
+                    }
                 </View>
 
                 <View style={newStyle.inputContainer}>
@@ -421,28 +441,24 @@ class FormTwo extends Component {
                             {/* valueExtractor = {({value}) => value}
                             onChangeText={(value)=> { this.onChangeTextPress(value) }} */}
 
-                        {/* <Dropdown
-                            containerStyle= {newStyle.dropDownS}                         
-                            data={this.state.data} ref={this.nicheRef}
-                        /> */}
-
-                        <TextInput
-                            style={ newStyle.firstInput}
-                            placeholder=''
-                            onChangeText= { (firstNameInput) => this.setState({firstNameInput}) }
-                        /> 
-                         <TouchableOpacity onPress={() => this.somethingElse()}
-                            activeOpacity={0.5}
-                            style={newStyle.iconStyleNew}>
-                            <Icon
-                                containerStyle={newStyle.iconImageStyle}                               
-                                name='angle-down'
-                                type='font-awesome'
-                                color='#000'
-                                size = {40}
-                            /> 
-
-                        </TouchableOpacity>
+                        <DropdownMenu
+                                style={{
+                                flex: 1, 
+                                marginTop: 0,
+                                flexDirection: 'row', 
+                                borderRadius: 8, 
+                                }}
+                                bgColor={'transparent'}
+                                tintColor={'#666666'}
+                                activityTintColor={'green'}
+                                // arrowImg={}      
+                                // checkImage={}   
+                                // optionTextStyle={{color: '#333333'}}
+                                // titleStyle={{color: '#333333'}} 
+                                maxHeight={200} 
+                                handler={(selection, row) => this.setState({text: data[selection][row]})}
+                                data={data}> 
+                        </DropdownMenu>
                     </View>
                     
 
@@ -450,7 +466,7 @@ class FormTwo extends Component {
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
+                        onChangeText= { (postalCodeInput) => this.validationPostalCode(postalCodeInput) }
                     />
 
                     <View style={newStyle.policyStyle}> 
@@ -461,14 +477,16 @@ class FormTwo extends Component {
                                 containerStyle={newStyle.checkBoxStyle}
                                 onPress={() => this.setState({checked: !this.state.checked})}
                                 />
-                        <Text style={newStyle.policyTextStyle}>
+                    {
+                        <Text style={[newStyle.policyTextStyle,{color: this.state.policyTextColor}]}>
                             {this.state.policyText}
                         </Text>                    
+                    }
                     </View>
                 </View>
 
                 <View style={newStyle.buttons}>
-                    <TouchableOpacity onPress={() => this.somethingElse()}
+                    <TouchableOpacity onPress={() => this.props.navigateBack()}
                         activeOpacity={0.5}
                         style={newStyle.iconStyle}>
                             <Icon
@@ -480,7 +498,14 @@ class FormTwo extends Component {
                                 onPress={() => console.log('hello')} /> 
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.props.onButtonPress(this.state.language)}
+                    <TouchableOpacity onPress={() => 
+                    {
+                        if(this.state.checked===true && this.state.postalCodeError===false)
+                                this.login();
+
+                        //this.props.onButtonPress(this.state.language);                        
+                    }
+                    }
                         activeOpacity={0.5}
                         style={newStyle.buttonStyle}>
                         <Text style={newStyle.buttonTextStyle}>
@@ -528,32 +553,22 @@ const newStyle = StyleSheet.create({
     dropDownStyle: {
         width: viewPortWidth,
         height: 110,
-        flex: 3,
+        flex: 2,
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',                
-        marginBottom: 10,        
-    },
-
-    dropDownS:{
-        width: 150,
-        height: 110,
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'powderblue',
-        justifyContent: 'center',
-        alignItems: 'center',                
-        marginBottom: 10,        
+        alignItems: 'flex-start',                
+        zIndex: 999,
     },
 
     inputContainer: {
         backgroundColor: 'white',
-        marginTop: 20,
-        padding: 15,
-        paddingTop: 15,
+        marginTop: 15,
+        padding: 10,
+        paddingTop: 10,
         flex: 18,
-        height: 200,
+        height: 150,
+        backgroundColor: 'white'
     },
 
     iconStyle: {
@@ -632,6 +647,7 @@ const newStyle = StyleSheet.create({
         marginBottom: 15,
         padding: 10,
         marginLeft: 15,
+        zIndex: 1,
     },
 
     buttons: {
@@ -681,7 +697,7 @@ const newStyle = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: 0,
         paddingLeft: 5
         
     },
@@ -703,7 +719,15 @@ const newStyle = StyleSheet.create({
          backgroundColor: 'black',
          width: 50,
          height: 50
-     }
+     },
+
+     validationStyle:{
+        position: 'absolute',
+        top: 62,
+        left: 35,
+        width: 60,
+        height: 60,    
+    }
 
 });
 

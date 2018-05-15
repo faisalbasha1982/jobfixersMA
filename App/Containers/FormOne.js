@@ -22,6 +22,7 @@ import DeviceInfo from 'react-native-device-info'
 import * as Animatable from 'react-native-animatable';
 import { StyleSheet } from 'react-native';
 import CompanyBanner from '../Components/CompanyBanner';
+import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -54,14 +55,111 @@ export default class FormOne extends Component {
             firstName:'',
             name:'',
             phoneNumber:'',
+            validation: false,
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
             buttonText: '',
+            firstNameError:true,
+            lastNameError:true,
+            phoneNumberError:true,
+            ErrorText:'All Fields are Required!'
         };
     
     }
 
+    validationLastName = (name) => {
+
+        let reg = /^[a-zA-Z\s]+$/;
+
+        console.log("last name="+name);
+
+        if(name === '')
+            this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
+        else
+        {
+            if(reg.exec(name))
+            {
+              this.setState({ lastNameError: false, lastNameInput: name });
+            }
+            else
+            {
+              if(this.state.language === 'NEDERLANDS')
+                  this.setState({ lastNameError: true, ErrorText: LanguageSettings.dutch.LNameErrorText });
+              else
+                  if(this.state.language === 'ENGLISH')
+                      this.setState({ lastNameError: true, ErrorText: LanguageSettings.english.LNameErrorText });
+                  else
+                      this.setState({ lastNameError: true, ErrorText: LanguageSettings.french.LNameErrorText });
+            }
+    
+        }    
+    } 
+
+    validationFirstName = (name) => {
+
+        let reg = /^[a-zA-Z\s]+$/;
+
+        if(name === '')
+        {
+            this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
+        }
+        else
+        {
+
+            if(reg.exec(name))
+            {
+              this.setState({ firstNameError: false, firstNameInput: name });
+            }
+            else
+            {
+              if(this.state.language === 'NEDERLANDS')
+                  this.setState({ firstNameError: true, ErrorText: LanguageSettings.dutch.FNameErrorText });
+              else
+                  if(this.state.language === 'ENGLISH')
+                      this.setState({ firstNameError: true, ErrorText: LanguageSettings.english.FNameErrorText });
+                  else
+                      this.setState({ firstNameError: true, ErrorText: LanguageSettings.french.FNameErrorText });
+            }
+   
+        }        
+    }
+
+    validatePhone = (phone) => {
+
+        let reg = /^[0-9]{10}$/;
+
+        if(phone === '')
+        {
+            this.setState({ phone: true, ErrorText: 'Phone Number is Required' });
+        }
+        else
+        {
+            // home phone number belgium
+            let homePhone = /^((\+|00)32\s?|0)(\d\s?\d{3}|\d{2}\s?\d{2})(\s?\d{2}){2}$/;
+            // mobile phone number belgium
+            let mPhone = /^((\+|00)32\s?|0)4(60|[789]\d)(\s?\d{2}){3}$/;
+    
+            this.phoneText = this.state.country;
+    
+            if (reg.exec(phone))
+              this.setState({ phoneNumberError: false, phone: phone });
+            else
+                if(this.state.language === 'NEDERLANDS')
+                    this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.dutch.TelephoneNumberError });
+                else
+                    if(this.state.language === 'ENGLISH')
+                        this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.english.TelephoneNumberError });
+                    else
+                        this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.french.TelephoneNumberError });
+        }
+    
+        // if (homePhone.exec(phone))
+        //   this.setState({ phoneError: false, phone: phone });
+        // else
+        //   this.setState({ phoneError: true });
+    
+    }
 
     componentWillReceiveProps(nextProps) {
         console.log("in Form One screen language received="+nextProps.language);
@@ -119,35 +217,58 @@ export default class FormOne extends Component {
        
     }
 
+    renderValidation = () => {
+        
+        if(this.state.firstNameError === true || this.state.lastNameError === true || this.state.phoneNumberError === true)
+            return (                        
+                <View style={newStyle.validationStyle}> 
+                        <Validation
+                            objectParams = 
+                            {{
+                                'btnText': this.state.ErrorText, 
+                                'language': this.props.navigation.state.params.language
+                            }}
+                        />
+                </View>
+            );
+        
+        return;
+
+    }
+
     render() {
         return (
             <View style={newStyle.container}>
 
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+                    {
+                        this.renderValidation()
+                    }
                 </View>
 
                 <View style={newStyle.inputContainer}>
 
                     <Text style={newStyle.firstName}>{this.state.firstName}</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
-                        placeholder=''
-                        onChangeText= { (firstNameInput) => this.setState({firstNameInput}) }
+                                style={ newStyle.nameInput}
+                                placeholder=''
+                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}
                     />
+                            
 
                     <Text style={newStyle.firstName}>{this.state.name}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
-                        onChangeText= { (lastNameInput) => this.setState({lastNameInput}) }
+                        onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }
                     />
 
                     <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
-                        onChangeText= { (phoneNumberInput) => this.setState({phoneNumberInput}) }
+                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                     />                
 
                 </View>
@@ -160,9 +281,11 @@ export default class FormOne extends Component {
                                     firstName: this.state.firstName,
                                     lastName: this.state.name,
                                     phoneNumber: this.state.phoneNumber,
+                                    firstNameError: this.state.firstNameError,
+                                    lastNameError: this.state.lastNameError,
+                                    phoneNumberError: this.state.phoneNumberError
                                 }}/>
-                </View>
-
+                </View>                    
             </View>
         );
     }
@@ -208,7 +331,7 @@ const newStyle = StyleSheet.create({
     },
 
     phoneNumberStyle: {
-        width: 159,
+        width: 190,
         height: 22,
         fontFamily: 'WorkSans-Regular',
         fontSize: 16,
@@ -241,6 +364,14 @@ const newStyle = StyleSheet.create({
         marginBottom:  10,
         marginTop: 10,
     },
+
+    validationStyle:{
+        position: 'absolute',
+        top: 62,
+        left: 35,
+        width: 60,
+        height: 60,    
+    }
 
 });
 

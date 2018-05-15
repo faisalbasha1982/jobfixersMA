@@ -21,7 +21,10 @@ class ButtonNext extends Component {
       language:'',
       firstName:'',
       lastName: '',
-      phoneNumber:'',      
+      phoneNumber:'',
+      firstNameError: false,
+      lastNameError: false,
+      phoneNumberError: false      
     };
   }
 
@@ -35,6 +38,9 @@ class ButtonNext extends Component {
         firstName: nextProps.objectParams.firstName,
         lastName: nextProps.objectParams.lastName,
         phoneNumber: nextProps.objectParams.phoneNumber,
+        firstNameError: nextProps.objectParams.firstNameError,
+        lastNameError: nextProps.objectParams.lastNameError,
+        phoneNumberError: nextProps.objectParams.phoneNumberError
       });
 
       clanguage = this.props.objectParams.language;
@@ -49,11 +55,14 @@ class ButtonNext extends Component {
     clanguage = this.props.objectParams.language;
 
     this.setState({ 
-                    text: this.props.objectParams.btnText, 
-                    language: this.props.objectParams.language,
-                    firstName: this.props.objectParams.firstName,
-                    lastName: this.props.objectParams.lastName,
-                    phoneNumber: this.props.objectParams.phoneNumber, 
+        text: this.props.objectParams.btnText, 
+        language: this.props.objectParams.language,
+        firstName: this.props.objectParams.firstName,
+        lastName: this.props.objectParams.lastName,
+        phoneNumber: this.props.objectParams.phoneNumber, 
+        firstNameError: this.props.objectParams.firstNameError,
+        lastNameError: this.props.objectParams.lastNameError,
+        phoneNumberError: this.props.objectParams.phoneNumberError            
     });
   }
 
@@ -61,6 +70,10 @@ class ButtonNext extends Component {
   }
 
   somethingElse = () => {
+
+    console.log("firstNameError:"+this.state.firstNameError);
+    console.log("lastNameError:"+this.state.lastNameError);
+    console.log("phoneNameError:"+this.state.phoneNumberError);
 
   }
 
@@ -70,7 +83,10 @@ class ButtonNext extends Component {
   render() {
       return (
         <TouchableOpacity
-        onPress={() => this.props.onButtonPress(this.state.text,clanguage,this.state.firstName,this.state.lastName,this.state.phoneNumber) }
+        onPress={() => 
+          (!this.state.firstNameError && 
+          !this.state.lastNameError && 
+          !this.state.phoneNumberError)?this.props.onButtonPress(this.state.text,clanguage,this.state.firstName,this.state.lastName,this.state.phoneNumber):this.somethingElse() }
           activeOpacity={0.5}
           style={{
             width: 333,
@@ -115,7 +131,7 @@ const mapDispatchToProps = dispatch => {
     resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
     navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
     navigateBack: () => dispatch(NavigationActions.back()),
-    onButtonPress: (text,language,firstName,lastName,phoneNumber) => dispatch(NavigationActions.navigate({routeName: 'FormTwoNew',params: {objectParams: {
+    onButtonPress: (text,language,firstName,lastName,phoneNumber) => dispatch(NavigationActions.navigate({routeName: 'FormTwo',params: {objectParams: {
         text: text,
         language: language,
         firstName: firstName,

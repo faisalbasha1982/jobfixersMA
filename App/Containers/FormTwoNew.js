@@ -33,7 +33,7 @@ import { CountryCodes } from './CountryCodes';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
-import DropdownMenu from 'react-native-dropdown-menu';
+import DropdownMenu from './DropDownMenu';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -449,30 +449,36 @@ class FormTwoNew extends Component {
     }
 
     render() {
+      var data = [["Construction Worker", "Worker", "Clerk",]];
+
         return (
             <View style={newStyle.container}>
                 <View style={newStyle.headerImageStyle}>
                         <Image source={logoNew} resizeMode="contain" style={{ margin: 0, padding:0, width: viewPortWidth, height: viewPortHeight * 0.42 }} />
                 </View>
                 <View style={{width: viewPortWidth, height: 50, flex: 1, backgroundColor: 'white'}}>
-                    <Dropdown
+                    {/* <Dropdown
                             label=''
                             containerStyle={newStyle.inputStyle}
                             data={this.state.data}
-                    />
-                {/* <DropdownMenu
-                        style={{flex: 1, borderRadius: 8, width: viewPortWidth* 0.75, height: 50}}
-                        bgColor={'#f6f6f6'}
+                    /> */}
+                <DropdownMenu
+                        style={{
+                          flex: 1, 
+                          flexDirection: 'row', 
+                          borderRadius: 8, 
+                          }}
+                        bgColor={'transparent'}
                         tintColor={'#666666'}
                         activityTintColor={'green'}
-                        arrowImg={}      
+                        // arrowImg={}      
                         // checkImage={}   
                         // optionTextStyle={{color: '#333333'}}
                         // titleStyle={{color: '#333333'}} 
-                        // maxHeight={300} 
+                        maxHeight={200} 
                         handler={(selection, row) => this.setState({text: data[selection][row]})}
                         data={data}> 
-                </DropdownMenu> */}
+                </DropdownMenu>
 
                     {/* <TouchableOpacity
                         activeOpacity={0.5}
