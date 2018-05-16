@@ -44,6 +44,7 @@ import headerImage from '../Images/headerImage.png';
 import logoHeader from '../Images/logoheader.png';
 import logoNew from '../Images/logojobfixersNew.png';
 import PopupMenu from './PopupMenu';
+import languageSettings from '../Containers/LanguageSettingsNew';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
@@ -82,6 +83,10 @@ class FormTwo extends Component {
             language: 'NEDERLANDS',
             workText: '',
             postalCode: '',
+            firstname: '',
+            lastname: '',
+            phonenumber: '',
+            dropDownItem: '',            
             postalCodeInput: '',
             postalCodeError: true,
             policyText: '',
@@ -110,6 +115,69 @@ class FormTwo extends Component {
             //   ],
         };
     
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.navigation.state.params.objectParams !== nextProps.objectParams) {
+            this.setState({ 
+                language: this.props.navigation.state.params.objectParams.language,
+                firstname: this.props.navigation.state.params.objectParams.firstName,
+                lastname: this.props.navigation.state.params.objectParams.lastName,
+                phonenumber: this.props.navigation.state.params.objectParams.phoneNumber,                
+            });
+            this.setText();
+        }
+    }
+
+    componentDidMount() {
+        console.log("default language="+this.props.navigation.state.params.objectParams.language);
+        this.setState({ 
+            language: this.props.navigation.state.params.objectParams.language,
+            firstname: this.props.navigation.state.params.objectParams.firstName,
+            lastname: this.props.navigation.state.params.objectParams.lastName,
+            phonenumber: this.props.navigation.state.params.objectParams.phoneNumber,                
+        });
+        console.log("language="+this.state.language);
+        this.setText();
+        console.log("this.state.firstName="+this.state.firstName);
+        console.log("this.state.buttonText="+this.state.buttonText);
+    }
+
+    setText = () => {
+
+        console.log("this.state.language="+this.state.language);
+
+        if (this.props.navigation.state.params.objectParams.language === 'NEDERLANDS') {
+            console.log("setting in Nederlands");
+            this.setState({
+                workText:  LanguageSettings.dutch.workText,
+                postalCode: LanguageSettings.dutch.postalCodeText,
+                policyText: LanguageSettings.dutch.policyText,
+                buttonText: LanguageSettings.dutch.buttonTextJob
+            });
+        }
+        else
+            if (this.props.navigation.state.params.objectParams.language === 'ENGLISH') {
+                console.log("setting in English");
+                this.setState({
+                    workText:  LanguageSettings.english.workText,
+                    postalCode: LanguageSettings.english.postalCodeText,
+                    policyText: LanguageSettings.english.policyText,
+                    buttonText: LanguageSettings.english.buttonTextJob
+                    });
+            }
+            else
+              {
+                console.log("setting in French");
+                this.setState({
+                    workText:  LanguageSettings.french.workText,
+                    postalCode: LanguageSettings.french.postalCodeText,
+                    policyText: LanguageSettings.french.policyText,
+                    buttonText: LanguageSettings.french.buttonTextJob
+                    });
+            }
+    
+       
     }
 
     randomStringIV = () => {
@@ -167,50 +235,89 @@ class FormTwo extends Component {
                 <ActivityIndicator size="large" color="#0000ff" />
         </View>
 
-        if(this.phone === '' || this.fullName === '' || this.phone === '' || this.postalCode==='' )
+        let phone = this.state.phonenumber;
+        let fName = this.state.firstname;
+        let lName = this.state.lastname;
+        let postalCode = this.state.postalCodeInput;
+        let Nieche = '';
+
+        if(this.state.dropDownItem === 'Construction Worker')
+             if(this.state.language === 'NEDERLANDS')
+                    Nieche = LanguageSettings.dutch.construct;
+             else
+                if(this.state.language === 'ENGLISH')
+                    Nieche = LanguageSettings.english.construct;
+                else
+                    Nieche = LanguageSettings.french.construct;
+        else
+             if(this.state.dropDownItem === 'Worker')
+                    if(this.state.language === 'NEDERLANDS')             
+                         Nieche = LanguageSettings.dutch.industry;
+                    else
+                        if(this.state.language === 'ENGLISH')
+                            Nieche = LanguageSettings.english.industry;
+                        else
+                            Nieche = LanguageSettings.french.industry;
+             else
+                    if(this.state.dropDownItem === 'Clerk')
+                        if(this.state.language === 'NEDERLANDS')        
+                            Nieche = LanguageSettings.dutch.office;
+                        else
+                            if(this.state.language === 'ENGLISH')
+                               Nieche = LanguageSettings.english.office;
+                           else
+                               Nieche = LanguageSettings.french.office;
+
+        console.log("values found in login, phone = "+this.state.phonenumber);
+        console.log("values found in login, fName = "+this.state.firstname);
+        console.log("values found in login, lName = "+this.state.lastname);
+        console.log("values found in login, postalcode = "+this.state.postalCodeInput);
+
+        if(phone === '' || fName === '' || lName === '' || postalCode ==='' )
             {
               
             }
         else
            {
-              let names = this.state.fullName.split(' ').toString();
+            //   let names = this.state.fullName.split(' ').toString();
               // Alert.alert('Names:', names);
               // Alert.alert('Nieche:', this.state.selected );
               let cAuthenticationData = "{'Lang':"+" '"+this.state.language+"',"+"  'AuthID': 'JS#236734', 'Data':'FormSignUp', 'D' :"+" '"+this.getUTCDate()+"'"+","+  " 'R' : 'er3rss'}";
               console.log("AuthenticationData:",cAuthenticationData);
     
-              Alert.alert('Authentication Data:', cAuthenticationData);
+            //   Alert.alert('Authentication Data:', cAuthenticationData);
               //"AuthenticationData": "{'Lang': 'fr',  'AuthID': 'JS#236734','Data':'FormSignUp','D' : '2018-04-30 11:30:12' ,'R' : 'er3rss'}",
     
               var encrypted = this.aes(cAuthenticationData);
               console.log('loginfunction Encrypted :' + encrypted);
     
-              fetch(Api.signUpURL, {
+              fetch(Api.signUpURL1, {
                 method: 'post',
                 headers: {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({      
                     "AuthenticationData": encrypted.toString(),
-                    "firstname": names[0],
-                    "lastname": names[1],
-                    "phonenumber": parseInt(this.state.phone),
-                    "postalcode": parseInt(this.state.postalCode),
-                    "niche": this.state.selected,
+                    "firstname": fName,
+                    "lastname": lName,
+                    "phonenumber": this.state.phonenumber,
+                    "postalcode": parseInt(this.state.postalCodeInput),
+                    "niche": Nieche,
                 }),
               }).then(response => response.json())
                 .then((res) => {
                   console.log('Success:', res);
                   if (typeof (res.message) !== 'undefined') {
                     this.setState({ message: res.Message_en });
-                    Alert.alert('Welcome', this.state.message);
+                    // Alert.alert('Welcome', this.state.message);
                     this.setState({ isLogin: false, canLogin: false });
                     this.props.onButtonPress(this.state.language);
-                    this.props.clear();
+                    //this.props.clear();
                   } else {
                     console.log("message=",res.Message_en);
                     this.setState({ message: res.Message_en })
-                    Alert.alert('Welcome', this.state.message);
+                    // Alert.alert('Welcome', this.state.message);
+                    this.props.onButtonPress(this.state.language);
                   }
                 }).catch((error) => { console.error(error); });
             }
@@ -299,7 +406,7 @@ class FormTwo extends Component {
   
       //var utcDate = new Date(Date.UTC(year,month-1,day,hour,minutes,seconds));
      
-      Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
+    //   Alert.alert('Day & Time UTC', currentDate+' '+fullTime);
   
       return currentDate+' '+fullTime;
     }
@@ -358,59 +465,7 @@ class FormTwo extends Component {
     somethingElse = () => {
 
     }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.navigation.state.params.objectParams !== nextProps.objectParams) {
-            this.setState({ language: this.props.navigation.state.params.objectParams.language });
-            this.setText();
-        }
-    }
-
-    componentDidMount() {
-        console.log("default language="+this.props.navigation.state.params.objectParams.language);
-        this.setState({ language: this.props.navigation.state.params.objectParams.language });
-        console.log("language="+this.state.language);
-        this.setText();
-        console.log("this.state.firstName="+this.state.firstName);
-        console.log("this.state.buttonText="+this.state.buttonText);
-    }
-
-    setText = () => {
-
-        console.log("this.state.language="+this.state.language);
-
-        if (this.props.navigation.state.params.objectParams.language === 'NEDERLANDS') {
-            console.log("setting in Nederlands");
-            this.setState({
-                workText:  LanguageSettings.dutch.workText,
-                postalCode: LanguageSettings.dutch.postalCodeText,
-                policyText: LanguageSettings.dutch.policyText,
-                buttonText: LanguageSettings.dutch.buttonTextJob
-            });
-        }
-        else
-            if (this.props.navigation.state.params.objectParams.language === 'ENGLISH') {
-                console.log("setting in English");
-                this.setState({
-                    workText:  LanguageSettings.english.workText,
-                    postalCode: LanguageSettings.english.postalCodeText,
-                    policyText: LanguageSettings.english.policyText,
-                    buttonText: LanguageSettings.english.buttonTextJob
-                    });
-            }
-            else
-              {
-                console.log("setting in French");
-                this.setState({
-                    workText:  LanguageSettings.french.workText,
-                    postalCode: LanguageSettings.french.postalCodeText,
-                    policyText: LanguageSettings.french.policyText,
-                    buttonText: LanguageSettings.french.buttonTextJob
-                    });
-            }
     
-       
-    }
 
     callLogin = async () =>
     {
@@ -425,7 +480,9 @@ class FormTwo extends Component {
         var data = [["Construction Worker", "Worker", "Clerk",]];
 
         return (
-            <View style={newStyle.container}>
+           <View style={newStyle.container}>
+
+            {/* <View style={newStyle.container}> */}
 
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
@@ -456,7 +513,7 @@ class FormTwo extends Component {
                                 // optionTextStyle={{color: '#333333'}}
                                 // titleStyle={{color: '#333333'}} 
                                 maxHeight={200} 
-                                handler={(selection, row) => this.setState({text: data[selection][row]})}
+                                handler={(selection, row) => this.setState({dropDownItem: data[selection][row]})}
                                 data={data}> 
                         </DropdownMenu>
                     </View>

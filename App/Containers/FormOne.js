@@ -9,7 +9,8 @@ import {
     Dimensions,
     TextInput,
     PixelRatio,
-    Alert
+    Alert,
+    findNodeHandle,
 } from 'react-native';
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
@@ -143,7 +144,7 @@ export default class FormOne extends Component {
             this.phoneText = this.state.country;
     
             if (reg.exec(phone))
-              this.setState({ phoneNumberError: false, phone: phone });
+              this.setState({ phoneNumberError: false, phoneNumberInput: phone });
             else
                 if(this.state.language === 'NEDERLANDS')
                     this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.dutch.TelephoneNumberError });
@@ -238,8 +239,9 @@ export default class FormOne extends Component {
 
     render() {
         return (
+            
             <View style={newStyle.container}>
-
+            
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                     {
@@ -251,7 +253,7 @@ export default class FormOne extends Component {
 
                     <Text style={newStyle.firstName}>{this.state.firstName}</Text>
                     <TextInput
-                                style={ newStyle.nameInput}
+                                style={ newStyle.nameInput }
                                 placeholder=''
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}
                     />
@@ -266,6 +268,7 @@ export default class FormOne extends Component {
 
                     <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
                     <TextInput
+                        keyboardType= "numeric"
                         style={ newStyle.nameInput}
                         placeholder=''
                         onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
@@ -278,9 +281,9 @@ export default class FormOne extends Component {
                                 {{
                                     btnText: this.state.buttonText, 
                                     language: this.props.navigation.state.params.language,
-                                    firstName: this.state.firstName,
-                                    lastName: this.state.name,
-                                    phoneNumber: this.state.phoneNumber,
+                                    firstName: this.state.firstNameInput,
+                                    lastName: this.state.lastNameInput,
+                                    phoneNumber: this.state.phoneNumberInput,
                                     firstNameError: this.state.firstNameError,
                                     lastNameError: this.state.lastNameError,
                                     phoneNumberError: this.state.phoneNumberError
@@ -300,6 +303,12 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+
+    scrollStyle: {
+        flex:1,
+        margin:0,
+        padding:0,
     },
 
     headerImage: {

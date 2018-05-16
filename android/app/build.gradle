@@ -94,18 +94,27 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
 
+    packagingOptions {
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
     defaultConfig {
         applicationId "com.jobfixersma"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
     splits {
         abi {
@@ -138,22 +147,17 @@ android {
 
 dependencies {
     compile project(':react-native-rsa-native')
-    compile project(':react-native-encryption-library')
     compile project(':react-native-config')
     compile project(':react-native-aes-kit')
     compile project(':react-native-aes-crypto')
-    compile(project(':react-native-maps')) {
-        exclude group: 'com.google.android.gms', module: 'play-services-base'
-        exclude group: 'com.google.android.gms', module: 'play-services-maps'
-    }
-    compile 'com.google.android.gms:play-services-base:10.2.0'
-    compile 'com.google.android.gms:play-services-maps:10.2.0'
-
+    compile project(':react-native-maps')
     compile project(':react-native-vector-icons')
     compile project(':react-native-device-info')
+    compile 'com.android.support:multidex:1.0.1'
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:support-compat:25.2.0"
     compile "com.facebook.react:react-native:+"  // From node_modules
+    compile 'com.google.android.gms:play-services:11.0.4'
 }
 
 // Run this once to be able to run the application with BUCK

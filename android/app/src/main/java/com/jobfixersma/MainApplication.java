@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.RNRSA.RNRSAPackage;
-import com.react_native_encryption_library.EncryptionReactPackager;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import cc.rocwang.aescrypto.AesCryptoPackage;
 import com.tectiv3.aes.RCTAesPackage;
@@ -32,7 +31,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNRSAPackage(),
-            new EncryptionReactPackager(),
             new ReactNativeConfigPackage(),
             new AesCryptoPackage(),
             new RCTAesPackage(),
