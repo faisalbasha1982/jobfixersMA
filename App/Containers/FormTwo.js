@@ -12,6 +12,16 @@ import {
     ActivityIndicator,
     Alert
 } from 'react-native';
+import {
+    BallIndicator,
+    BarIndicator,
+    DotIndicator,
+    PacmanIndicator,
+    PulseIndicator,
+    SkypeIndicator,
+    UIActivityIndicator,
+    WaveIndicator,
+  } from 'react-native-indicators';
 import { CheckBox } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icons from 'react-native-vector-icons/Feather';
@@ -96,11 +106,15 @@ class FormTwo extends Component {
             cca2:'',
             callingCode:'',
             country:'',
+            isLoading:false,
             message: '',
             language: 'en',
             time: '',
             selected:'',
             eAuthData:'',
+            construct:'',
+            office:'',
+            industry:'',
 
             // data: [
             //     {
@@ -153,7 +167,10 @@ class FormTwo extends Component {
                 workText:  LanguageSettings.dutch.workText,
                 postalCode: LanguageSettings.dutch.postalCodeText,
                 policyText: LanguageSettings.dutch.policyText,
-                buttonText: LanguageSettings.dutch.buttonTextJob
+                buttonText: LanguageSettings.dutch.buttonTextJob,
+                industry: LanguageSettings.dutch.industry,
+                construct: LanguageSettings.dutch.construct,
+                office: LanguageSettings.dutch.office,
             });
         }
         else
@@ -163,7 +180,10 @@ class FormTwo extends Component {
                     workText:  LanguageSettings.english.workText,
                     postalCode: LanguageSettings.english.postalCodeText,
                     policyText: LanguageSettings.english.policyText,
-                    buttonText: LanguageSettings.english.buttonTextJob
+                    buttonText: LanguageSettings.english.buttonTextJob,
+                    industry: LanguageSettings.english.industry,
+                    construct: LanguageSettings.english.construct,
+                    office: LanguageSettings.english.office,    
                     });
             }
             else
@@ -173,7 +193,10 @@ class FormTwo extends Component {
                     workText:  LanguageSettings.french.workText,
                     postalCode: LanguageSettings.french.postalCodeText,
                     policyText: LanguageSettings.french.policyText,
-                    buttonText: LanguageSettings.french.buttonTextJob
+                    buttonText: LanguageSettings.french.buttonTextJob,
+                    industry: LanguageSettings.french.industry,
+                    construct: LanguageSettings.french.construct,
+                    office: LanguageSettings.french.office,    
                     });
             }
     
@@ -229,11 +252,13 @@ class FormTwo extends Component {
     
     login = async () => 
     {        
-        <View style={{ flex:1, flexDirection: 'row',
-        justifyContent: 'space-around',
-            padding: 10 }}>
-                <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+        // <View style={{ flex:1, flexDirection: 'row',
+        // justifyContent: 'space-around',
+        //     padding: 10 }}>
+        //         <ActivityIndicator size="large" color="#0000ff" />
+        // </View>        
+
+        this.setState({isLoading: true});
 
         let phone = this.state.phonenumber;
         let fName = this.state.firstname;
@@ -241,41 +266,30 @@ class FormTwo extends Component {
         let postalCode = this.state.postalCodeInput;
         let Nieche = '';
 
-        if(this.state.dropDownItem === 'Construction Worker')
-             if(this.state.language === 'NEDERLANDS')
-                    Nieche = LanguageSettings.dutch.construct;
-             else
-                if(this.state.language === 'ENGLISH')
-                    Nieche = LanguageSettings.english.construct;
-                else
-                    Nieche = LanguageSettings.french.construct;
-        else
-             if(this.state.dropDownItem === 'Worker')
-                    if(this.state.language === 'NEDERLANDS')             
-                         Nieche = LanguageSettings.dutch.industry;
-                    else
-                        if(this.state.language === 'ENGLISH')
-                            Nieche = LanguageSettings.english.industry;
-                        else
-                            Nieche = LanguageSettings.french.industry;
-             else
-                    if(this.state.dropDownItem === 'Clerk')
-                        if(this.state.language === 'NEDERLANDS')        
-                            Nieche = LanguageSettings.dutch.office;
-                        else
-                            if(this.state.language === 'ENGLISH')
-                               Nieche = LanguageSettings.english.office;
-                           else
-                               Nieche = LanguageSettings.french.office;
+        if(this.state.dropDownItem === 'Construction Worker' 
+            || this.state.dropDownItem === 'Bouwvakker'
+            || this.state.dropDownItem === 'Travailleur de construction')
+            Nieche = 'Construct';
+
+        if(this.state.dropDownItem === 'Worker'
+            || this.state.dropDownItem === 'Arbeider'
+            || this.state.dropDownItem === 'Travailleur')
+            Nieche = 'Industry';
+
+        if(this.state.dropDownItem === 'Clerk'
+            || this.state.dropDownItem === 'Bediende'
+            || this.state.dropDownItem === 'Employé')
+            Nieche = 'Office';
+            
 
         console.log("values found in login, phone = "+this.state.phonenumber);
         console.log("values found in login, fName = "+this.state.firstname);
         console.log("values found in login, lName = "+this.state.lastname);
         console.log("values found in login, postalcode = "+this.state.postalCodeInput);
 
-        if(phone === '' || fName === '' || lName === '' || postalCode ==='' )
+        if(phone === '' || fName === '' || lName === '' || postalCode ==='' || this.state.checked === false )
             {
-              
+                
             }
         else
            {
@@ -291,7 +305,7 @@ class FormTwo extends Component {
               var encrypted = this.aes(cAuthenticationData);
               console.log('loginfunction Encrypted :' + encrypted);
     
-              fetch(Api.signUpURL1, {
+              fetch(Api.signUpURLP, {
                 method: 'post',
                 headers: {
                   'Content-Type': 'application/json',
@@ -328,7 +342,7 @@ class FormTwo extends Component {
             if(checked === false)
                 this.setState({ CheckBoxError: true, ErrorText: 'CheckBox is Clicked', policyTextColor: '#e73d50' });
             else
-                this.setState({ CheckBoxError: false, ErrorText: '', policyTextColor: '000' });
+                this.setState({ CheckBoxError: false, ErrorText: '', policyTextColor: '#000' });
 
     }   
 
@@ -477,7 +491,7 @@ class FormTwo extends Component {
         const myIcon = (<Icon name="angle-left" size={30} color="#900" />);
         var bt = LanguageSettings.dutch.buttonTextJob;
         const lbl = '';
-        var data = [["Construction Worker", "Worker", "Clerk",]];
+        var data = [[this.state.construct, this.state.industry, this.state.office,]];
 
         return (
            <View style={newStyle.container}>
@@ -492,6 +506,12 @@ class FormTwo extends Component {
                 </View>
 
                 <View style={newStyle.inputContainer}>
+                <KeyboardAwareScrollView
+                        style={{ backgroundColor: '#ffffff' }}
+                        resetScrollToCoords={{ x: 0, y: 0 }}
+                        contentContainerStyle={newStyle.keyboardScrollViewContainer}
+                        scrollEnabled={true}
+                    >
                     <Text style={newStyle.firstName}>{this.state.workText}</Text>
                     <View style= {newStyle.dropDownStyle}>
 
@@ -519,9 +539,18 @@ class FormTwo extends Component {
                     </View>
                     
 
+                    {
+                        this.state.isLoading===true?
+                        <View style = {{position: 'absolute' , zIndex:999, left: 40, top: 40, right: 0, bottom: 0}}>
+                        <BallIndicator color='#e73d50' />
+                        </View>:''
+                    }
+
+
                     <Text style={newStyle.postalName}>{this.state.postalCode}</Text>
                     <TextInput
                         style={ newStyle.nameInput}
+                        keyboardType= "numeric"
                         placeholder=''
                         onChangeText= { (postalCodeInput) => this.validationPostalCode(postalCodeInput) }
                     />
@@ -535,11 +564,13 @@ class FormTwo extends Component {
                                 onPress={() => this.setState({checked: !this.state.checked})}
                                 />
                     {
-                        <Text style={[newStyle.policyTextStyle,{color: this.state.policyTextColor}]}>
+                        <Text style={[newStyle.policyTextStyle,{color: this.state.checked?'#000':'#e73d50'}]}>
                             {this.state.policyText}
                         </Text>                    
                     }
                     </View>
+                    </KeyboardAwareScrollView>
+
                 </View>
 
                 <View style={newStyle.buttons}>
@@ -585,6 +616,13 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+
+    keyboardScrollViewContainer: {
+        backgroundColor: 'transparent',
+        flex: 2,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
 
     headerImage: {

@@ -22,9 +22,9 @@ english: {
     thankYouTextOne: "We will call you as soon",
     thankYouTextTwo: "as possible",
     followText: "follow us on",
-    industry: "industry",
-    construct: "construct",
-    office: "office"
+    industry: "Worker",
+    construct: "Construction Worker",
+    office: "Clerk"
 },
 
 dutch: {    

@@ -9,6 +9,7 @@ const api = {
   AuthId: 'JS#236734',
   signUpURL:  'https://prod-36.westeurope.logic.azure.com:443/workflows/6c7084b18aa14457a7d1645153ced3e7/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=TmLOvpwMBYjrnKmhdDzc-EY2gIgPIxSvGsTGbk66rgM',
   signUpURL1: 'https://prod-27.westeurope.logic.azure.com:443/workflows/ca7d95ebc3a14f65abf1e1d740312267/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1eztFWraDyq9Ag46o4NiJNYvc0c9t3DOVpEemWqFkfE',
+  signUpURLP: 'https://prod-54.westeurope.logic.azure.com:443/workflows/fad35cb3bf804958806170aab090f5fd/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PIqV4C0NMg6yGjaBeaOMl8oLM8DK8v8NilOL-4azW7A',
   securityKey: 'VyhoMoGxi25xn/Tc'
 };
 

@@ -12,6 +12,7 @@ import {
     Alert,
     findNodeHandle,
 } from 'react-native';
+
 import { Container, Header, Content, Input, Item } from 'native-base';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -36,6 +37,11 @@ import logoNew from '../Images/logojobfixersNew.png';
 
 const viewPortHeight = Dimensions.get('window').height;
 const viewPortWidth = Dimensions.get('window').width;
+
+const window = Dimensions.get('window');
+
+export const IMAGE_HEIGHT = window.width / 2;
+export const IMAGE_HEIGHT_SMALL = window.width /7;
 
 // Styles
 
@@ -239,7 +245,12 @@ export default class FormOne extends Component {
 
     render() {
         return (
-            
+            <KeyboardAwareScrollView
+                style={{ backgroundColor: '#ffffff' }}
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                contentContainerStyle={newStyle.keyboardScrollViewContainer}
+                scrollEnabled={true}
+            >
             <View style={newStyle.container}>
             
                 <View style={newStyle.headerImage}>
@@ -251,6 +262,7 @@ export default class FormOne extends Component {
 
                 <View style={newStyle.inputContainer}>
 
+               
                     <Text style={newStyle.firstName}>{this.state.firstName}</Text>
                     <TextInput
                                 style={ newStyle.nameInput }
@@ -288,8 +300,11 @@ export default class FormOne extends Component {
                                     lastNameError: this.state.lastNameError,
                                     phoneNumberError: this.state.phoneNumberError
                                 }}/>
-                </View>                    
+                </View>                   
+ 
             </View>
+            </KeyboardAwareScrollView>
+
         );
     }
 
@@ -303,6 +318,13 @@ const newStyle = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
+    },
+
+    keyboardScrollViewContainer: {
+        backgroundColor: 'transparent',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     scrollStyle: {
