@@ -11,12 +11,10 @@ import {
   Alert
 } from 'react-native';
 import { connect } from "react-redux";
-import {RSA, RSAKeychain} from 'react-native-rsa-native';
 import PropTypes from "prop-types";
 import Spinner from "react-native-loading-spinner-overlay";
 import DeviceInfo from 'react-native-device-info'
 import { StyleSheet } from 'react-native';
-import Aes from 'react-native-aes-crypto';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import randomstringPromise from 'randomstring-promise';
@@ -34,15 +32,7 @@ import CountryPicker, {
 import styles from './Styles/LaunchScreenStyles';
 import { CountryCodes } from './CountryCodes';
 import Api from './Api';
-import AesCrypto from 'react-native-aes-kit';
 
-const generateKey = (password, salt) => Aes.pbkdf2(password, salt);
-
-const encrypt = (text, keyBase64) => {
-    var ivBase64 = 'JOBFIXERS@WLNOB%AES#09876';    
-    return Aes.encrypt(text, keyBase64, ivBase64).then(cipher => ({ cipher, iv: ivBase64 }));
-};
-const decrypt = (encryptedData, key) => Aes.decrypt(encryptedData.cipher, key, encryptedData.iv);
 
 let userLocaleCountryCode = DeviceInfo.getDeviceCountry();
 let NORTH_AMERICA = ['CA', 'MX', 'US', "BE","AO","AD","US","AE"];
@@ -55,7 +45,6 @@ let cca2 = userLocaleCountryCode;
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
  
-
 export default class LaunchScreen extends Component {
   constructor(props){
     super(props);
@@ -99,78 +88,6 @@ export default class LaunchScreen extends Component {
   static defaultProps = {
     isFetching: false
   };
-
-rsa = () => {
-
-//https://github.com/amitaymolko/react-native-rsa-native
-
-RSA.generateKeys(4096) // set key size
-  .then(keys => {
-    console.log('4096 private:', keys.private) // the private key
-    console.log('4096 public:', keys.public) // the public key
-  })
-
-RSA.generate() 
-  .then(keys => {
-    console.log(keys.private) // the private key
-    console.log(keys.public) // the public key
-    RSA.encrypt('1234', keys.public)
-      .then(encodedMessage => {
-        RSA.decrypt(encodedMessage, keys.private)
-          .then(message => {
-            console.log(message);
-          })
-        })
-
-    RSA.sign(secret, keys.private)
-      .then(signature => {
-        console.log(signature);
-
-        RSA.verify(signature, secret, keys.public)
-          .then(valid => {
-            console.log(valid);
-          })
-        })
-  })
-
-// Example utilizing the keychain for private key secure storage
-
-let keyTag = 'com.domain.mykey';
-let secret = "secret message";
-
-RSAKeychain.generate(keyTag)
-  .then(keys => {
-    console.log(keys.public);
-    console.log(secret);
-
-    return RSAKeychain.encrypt(secret, keyTag)
-      .then(encodedMessage => {
-        console.log(encodedMessage);
-
-        RSAKeychain.decrypt(encodedMessage, keyTag)
-          .then(message => {
-            console.log(message);
-          })
-        })
-  })
-  .then(() => {
-  return RSAKeychain.sign(secret, keyTag)
-    .then(signature => {
-      console.log('signature', signature);
-
-      RSAKeychain.verify(signature, secret, keyTag)
-        .then(valid => {
-          console.log('verified', valid);
-        })
-      })
-  })
-  .then(() => {
-    RSAKeychain.deletePrivateKey(keyTag)
-    .then( success => {
-      console.log('delete success', success)
-    })
-  });  
-}
 
 randomStringKey = () => {
 
