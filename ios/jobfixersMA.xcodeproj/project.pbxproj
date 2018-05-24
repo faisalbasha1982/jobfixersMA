@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -23,7 +24,6 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1A6F0F44E8E34082A35800E2 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F353D4F507F84F548835B18E /* Zocial.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */; };
@@ -46,6 +46,8 @@
 		745EFB65EDFE40BD961BA628 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2161ED12DA184CFE974269D5 /* Entypo.ttf */; };
 		77E9BB26A3B14E57BF060220 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 612370282663414D80FEC543 /* Octicons.ttf */; };
 		78634AC1AACB4CDCB0CCF062 /* worksans_black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE33F3CA93924E3EAF83C745 /* worksans_black.ttf */; };
+		7B42975F20B69E920086E757 /* logoheader.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B42975E20B69E920086E757 /* logoheader.png */; };
+		7B42976120B6A33D0086E757 /* jobfixersLogoHeader.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B42976020B6A33D0086E757 /* jobfixersLogoHeader.png */; };
 		7F67BC97DA974BEAA574F263 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04813C0B9C354C749E107C9C /* FontAwesome.ttf */; };
 		8073259898DB4842B81914B1 /* worksans_thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BA3D72AD5674C7AA8F8D729 /* worksans_thin.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -415,6 +417,8 @@
 		612370282663414D80FEC543 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7B24950D91B249CDB7FEE764 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		7B42975E20B69E920086E757 /* logoheader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoheader.png; sourceTree = "<group>"; };
+		7B42976020B6A33D0086E757 /* jobfixersLogoHeader.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jobfixersLogoHeader.png; sourceTree = "<group>"; };
 		7FA63D716360410DB8877454 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		837C6D41B4A343B1990D9F64 /* worksans_regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = worksans_regular.ttf; path = ../assets/fonts/worksans_regular.ttf; sourceTree = "<group>"; };
@@ -746,6 +750,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7B42976020B6A33D0086E757 /* jobfixersLogoHeader.png */,
+				7B42975E20B69E920086E757 /* logoheader.png */,
 				13B07FAE1A68108700A75B9A /* jobfixersMA */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* jobfixersMATests */,
@@ -866,10 +872,12 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6G288D5Q87;
+						ProvisioningStyle = Automatic;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 6G288D5Q87;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1264,6 +1272,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				7B42976120B6A33D0086E757 /* jobfixersLogoHeader.png in Resources */,
 				6F90317131414AAEA908997E /* Entypo.ttf in Resources */,
 				E361D11ECEDB4652A36468A8 /* EvilIcons.ttf in Resources */,
 				3783AFC66B6E4CA28B52FB99 /* FontAwesome.ttf in Resources */,
@@ -1293,6 +1302,7 @@
 				4E7E0AB310DF4F5FA2E16825 /* worksans_light.ttf in Resources */,
 				9240CE063D4C4857A412DC20 /* worksans_medium.ttf in Resources */,
 				72DF7844FCD64010AE33C79D /* worksans_regular.ttf in Resources */,
+				7B42975F20B69E920086E757 /* logoheader.png in Resources */,
 				EBAF7CDAE2E94AA286F57DC7 /* worksans_semibold.ttf in Resources */,
 				8073259898DB4842B81914B1 /* worksans_thin.ttf in Resources */,
 			);
@@ -1302,7 +1312,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1678,6 +1687,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1720,6 +1730,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1732,6 +1743,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

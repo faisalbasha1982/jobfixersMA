@@ -82,7 +82,9 @@ export default class FormOne extends Component {
         console.log("last name="+name);
 
         if(name === '')
-            this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
+        {
+            //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
+        }
         else
         {
             if(reg.exec(name))
@@ -109,7 +111,7 @@ export default class FormOne extends Component {
 
         if(name === '')
         {
-            this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
+            //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
         }
         else
         {
@@ -138,7 +140,7 @@ export default class FormOne extends Component {
 
         if(phone === '')
         {
-            this.setState({ phone: true, ErrorText: 'Phone Number is Required' });
+            //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
         }
         else
         {
