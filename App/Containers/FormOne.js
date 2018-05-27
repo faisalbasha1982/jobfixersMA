@@ -10,6 +10,7 @@ import {
     TextInput,
     PixelRatio,
     Alert,
+    Platform,
     findNodeHandle,
 } from 'react-native';
 
@@ -248,7 +249,9 @@ export default class FormOne extends Component {
     render() {
         return (
             <KeyboardAwareScrollView
-                style={{ backgroundColor: '#ffffff' }}
+                style={{ backgroundColor: 'white',flex:1 }}
+                extraScrollHeight={0}
+                enableOnAndroid={true}
                 resetScrollToCoords={{ x: 0, y: 0 }}
                 contentContainerStyle={newStyle.keyboardScrollViewContainer}
                 scrollEnabled={true}
@@ -269,6 +272,7 @@ export default class FormOne extends Component {
                     <TextInput
                                 style={ newStyle.nameInput }
                                 placeholder=''
+                                underlineColorAndroid= 'transparent'
                                 onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}
                     />
                             
@@ -277,6 +281,7 @@ export default class FormOne extends Component {
                     <TextInput
                         style={ newStyle.nameInput}
                         placeholder=''
+                        underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }
                     />
 
@@ -285,6 +290,7 @@ export default class FormOne extends Component {
                         keyboardType= "numeric"
                         style={ newStyle.nameInput}
                         placeholder=''
+                        underlineColorAndroid= 'transparent'
                         onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
                     />                
 
@@ -338,7 +344,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.50,
-        flex: 8,
+        flex: Platform.os === 'ios'?8:6,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -354,7 +360,7 @@ const newStyle = StyleSheet.create({
     firstName: {
         width: 159,
         height: 19,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -366,7 +372,7 @@ const newStyle = StyleSheet.create({
     phoneNumberStyle: {
         width: 190,
         height: 22,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',

@@ -9,7 +9,8 @@ import {
   Dimensions,
   TextInput,
   PixelRatio,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -41,7 +42,7 @@ export default class NewScreen extends Component {
                       <Image source={logo} resizeMode="contain" style={{ width:334, height: 66.7 }} />
                     </View>
                 <View style={newStyle.languageTextContainer}>
-                    <Text style={newStyle.languageText}> Choose your language<Text>!</Text></Text>
+                    <Text style={newStyle.languageText}> Choose your language!</Text>
                 </View>
                 <View style={newStyle.buttons}>
                       <LanguageButton language={LanguageSettings.dutch.languageText} />
@@ -82,16 +83,16 @@ const newStyle = StyleSheet.create({
                 justifyContent: 'flex-end'
     },
     languageText: {
-                width: 334,
+                width: viewPortWidth,
                 height: 46,
-                fontFamily: 'WorkSans-Medium',
+                fontFamily: 'worksans',
                 fontSize: 30,
-                fontWeight: '500',
+                fontWeight: "400",
                 fontStyle: 'normal',
                 lineHeight: 46,
                 letterSpacing: 0,
-                textAlign: 'center',
-                marginLeft: 15,
+                textAlign: Platform.os === 'ios'?'center':'left',
+                marginLeft: Platform.os === 'ios'?15:5,
                 marginTop: 15
     },
 

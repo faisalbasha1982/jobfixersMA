@@ -70,6 +70,8 @@
 		<string>worksans_regular.ttf</string>
 		<string>worksans_semibold.ttf</string>
 		<string>worksans_thin.ttf</string>
+		<string>worksans.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

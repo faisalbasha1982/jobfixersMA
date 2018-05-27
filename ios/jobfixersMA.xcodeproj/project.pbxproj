@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -73,6 +72,8 @@
 		EBAF7CDAE2E94AA286F57DC7 /* worksans_semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A80729E8D7841DA8B3AE162 /* worksans_semibold.ttf */; };
 		F2A4B05DCF0F489ABB968770 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A660C25C8A544BCF82DD21B1 /* Ionicons.ttf */; };
 		FC5D18218D6749A386E812CE /* worksans_extrabold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04BD010D0E0E45AEAB58A4F7 /* worksans_extrabold.ttf */; };
+		EFDDEAD87550417DA2C92791 /* worksans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9C7571B0B60846E89142ADB3 /* worksans.ttf */; };
+		49A378C7EA2248F59A0F3E33 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE0B998E197347EA9F466725 /* rubicon-icon-font.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -440,6 +441,8 @@
 		F65F658884934AA5A5583D64 /* worksans_light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = worksans_light.ttf; path = ../assets/fonts/worksans_light.ttf; sourceTree = "<group>"; };
 		FE33F3CA93924E3EAF83C745 /* worksans_black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = worksans_black.ttf; path = ../assets/fonts/worksans_black.ttf; sourceTree = "<group>"; };
 		FFB729960D1D41A7AFF6FF66 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		9C7571B0B60846E89142ADB3 /* worksans.ttf */ = {isa = PBXFileReference; name = "worksans.ttf"; path = "../assets/fonts/worksans.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FE0B998E197347EA9F466725 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -658,6 +661,8 @@
 				837C6D41B4A343B1990D9F64 /* worksans_regular.ttf */,
 				2A80729E8D7841DA8B3AE162 /* worksans_semibold.ttf */,
 				5BA3D72AD5674C7AA8F8D729 /* worksans_thin.ttf */,
+				9C7571B0B60846E89142ADB3 /* worksans.ttf */,
+				FE0B998E197347EA9F466725 /* rubicon-icon-font.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1305,6 +1310,8 @@
 				7B42975F20B69E920086E757 /* logoheader.png in Resources */,
 				EBAF7CDAE2E94AA286F57DC7 /* worksans_semibold.ttf in Resources */,
 				8073259898DB4842B81914B1 /* worksans_thin.ttf in Resources */,
+				EFDDEAD87550417DA2C92791 /* worksans.ttf in Resources */,
+				49A378C7EA2248F59A0F3E33 /* rubicon-icon-font.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

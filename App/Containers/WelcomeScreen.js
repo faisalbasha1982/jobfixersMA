@@ -9,7 +9,8 @@ import {
     Dimensions,
     TextInput,
     PixelRatio,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -153,7 +154,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.45,
-        flex: 35,
+        flex: Platform.os === 'ios'?35:27,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
