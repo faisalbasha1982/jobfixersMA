@@ -71,6 +71,15 @@ class ButtonNext extends Component {
 
   somethingElse = () => {
 
+    if(this.state.language === 'ENGLISH')
+        this.props.func(true,LanguageSettings.english.EmptyErrorText);
+    else
+      if(this.state.language === 'NEDERLANDS')
+          this.props.func(true,LanguageSettings.dutch.EmptyErrorText);
+      else
+          this.props.func(true,LanguageSettings.french.EmptyErrorText);
+           
+
     console.log("firstNameError:"+this.state.firstNameError);
     console.log("lastNameError:"+this.state.lastNameError);
     console.log("phoneNameError:"+this.state.phoneNumberError);

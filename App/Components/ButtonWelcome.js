@@ -73,7 +73,7 @@ class ButtonWelcome extends Component {
                 fontSize: 17,
                 width: 333,
                 height: 19,
-                fontFamily: 'WorkSans-Regular',
+                fontFamily: 'worksans',
                 fontWeight: '500',
                 fontStyle: 'normal',
                 color: '#ffffff',

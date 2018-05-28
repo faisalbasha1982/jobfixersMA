@@ -85,12 +85,12 @@ class DropdownMenu extends Component {
       }
 
       return (
-        <View style={{width: 250, zIndex: 999, position: 'absolute', left: 22, right: 0, top: 75, bottom: 0}}>
+        <View style={{width: 280, zIndex: 999, position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
             <TouchableOpacity onPress={() => this.openOrClosePanel(this.state.activityIndex)} activeOpacity={1} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
                 <View style={{opacity: 0.4, backgroundColor: 'transparent', flex: 1 }} />
             </TouchableOpacity>
 
-          <ScrollView style={[{position: 'absolute',zIndex: 999, top: 0, left: 0, right: 0, backgroundColor: 'white'}, heightStyle]}>
+          <ScrollView style={[{position: 'absolute',zIndex: 999, top: 20, left: 0, right: 0, backgroundColor: 'white'}, heightStyle]}>
           {
             currentTitles.map((title, index) =>
             <TouchableOpacity key={index} activeOpacity={1} style={{flex: 1, height: 44}} onPress={this.itemOnPress.bind(this, index)} >
@@ -198,7 +198,7 @@ class DropdownMenu extends Component {
           <View style={{ flexDirection: 'row',backgroundColor: this.props.bgColor ? this.props.bgColor : this.defaultConfig.bgColor}}>
                 {
                     this.props.data.map((rows, index) =>
-                        <View style={{flexDirection: 'row',width: viewPortWidth , backgroundColor: 'transparent', padding: 20, }}>
+                        <View style={{flexDirection: 'row',width: viewPortWidth , backgroundColor: 'transparent', padding: 0, }}>
                             <TouchableOpacity
                                 activeOpacity={1}
                                 onPress={this.openOrClosePanel.bind(this, index)}
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     fontSize: 14,
     textAlign: 'left',
-    fontFamily: 'WorkSans-Regular',
+    fontFamily: 'worksans',
     fontSize: 16,
     fontWeight: '500',
     fontStyle: 'normal',
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
     height: 57,
     borderRadius: 8,
     backgroundColor: '#f6f6f6',
-    marginLeft: 15,
+    marginLeft: 0,
     justifyContent: 'center',
     alignItems: 'center'
   },

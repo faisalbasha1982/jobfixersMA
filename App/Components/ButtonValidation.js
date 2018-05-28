@@ -69,7 +69,7 @@ export default class ButtonValidation extends Component {
             marginBottom: 17,
             marginLeft: 8,
             borderRadius: 8,
-            backgroundColor: '#D0021B',
+            backgroundColor: '#d0021b',
             marginTop: viewPortHeight / 80,            
         }}>
         <Text
@@ -77,7 +77,7 @@ export default class ButtonValidation extends Component {
                 fontSize: 16,
                 width: 290,
                 height: 38,
-                fontFamily: 'WorkSans-Light',
+                fontFamily: 'worksans_light',
                 fontWeight: '500',
                 fontStyle: 'normal',
                 color: '#ffffff',

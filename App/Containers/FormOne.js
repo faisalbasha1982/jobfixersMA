@@ -64,6 +64,7 @@ export default class FormOne extends Component {
             name:'',
             phoneNumber:'',
             validation: false,
+            renderValidate: false,
             firstNameInput:'',
             lastNameInput:'',
             phoneNumberInput:'',
@@ -71,7 +72,8 @@ export default class FormOne extends Component {
             firstNameError:true,
             lastNameError:true,
             phoneNumberError:true,
-            ErrorText:'All Fields are Required!'
+            ErrorText:'',
+            EmptyErrorText:'',
         };
     
     }
@@ -227,6 +229,10 @@ export default class FormOne extends Component {
        
     }
 
+    renderNothing = () => {
+
+    }
+
     renderValidation = () => {
         
         if(this.state.firstNameError === true || this.state.lastNameError === true || this.state.phoneNumberError === true)
@@ -235,10 +241,9 @@ export default class FormOne extends Component {
                         <Validation
                             objectParams = 
                             {{
-                                'btnText': this.state.ErrorText, 
+                                'btnText': this.state.EmptyErrorText, 
                                 'language': this.props.navigation.state.params.language
-                            }}
-                        />
+                            }} />
                 </View>
             );
         
@@ -246,22 +251,30 @@ export default class FormOne extends Component {
 
     }
 
+    func = (renderValidate,EmptyErrorText) => {
+
+      this.setState({renderValidate,EmptyErrorText});
+
+    }
+
     render() {
         return (
+
             <KeyboardAwareScrollView
-                style={{ backgroundColor: 'white',flex:1 }}
-                extraScrollHeight={0}
+                behavior="padding"
                 enableOnAndroid={true}
-                resetScrollToCoords={{ x: 0, y: 0 }}
-                contentContainerStyle={newStyle.keyboardScrollViewContainer}
+                contentContainerStyle={newStyle.container}
                 scrollEnabled={true}
-            >
+                scrollToEnd={true}
+                enableResetScrollToCoords={true}
+                enableAutomaticScroll={true}>
+
             <View style={newStyle.container}>
             
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                     {
-                        this.renderValidation()
+                      (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
                     }
                 </View>
 
@@ -273,8 +286,7 @@ export default class FormOne extends Component {
                                 style={ newStyle.nameInput }
                                 placeholder=''
                                 underlineColorAndroid= 'transparent'
-                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}
-                    />
+                                onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
                             
 
                     <Text style={newStyle.firstName}>{this.state.name}</Text>
@@ -282,8 +294,7 @@ export default class FormOne extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }
-                    />
+                        onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
 
                     <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
                     <TextInput
@@ -291,13 +302,12 @@ export default class FormOne extends Component {
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }
-                    />                
+                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                
 
                 </View>
 
-                <View style={newStyle.buttons}>
-                    <ButtonNext objectParams=
+                    <ButtonNext 
+                            objectParams=
                                 {{
                                     btnText: this.state.buttonText, 
                                     language: this.props.navigation.state.params.language,
@@ -307,8 +317,8 @@ export default class FormOne extends Component {
                                     firstNameError: this.state.firstNameError,
                                     lastNameError: this.state.lastNameError,
                                     phoneNumberError: this.state.phoneNumberError
-                                }}/>
-                </View>                   
+                                }}
+                            func = {this.func}/>
  
             </View>
             </KeyboardAwareScrollView>
@@ -343,18 +353,18 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.50,
-        flex: Platform.os === 'ios'?8:6,
+        height: viewPortHeight * 0.55,
+        flex: Platform.os === 'ios'?8:5,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
     },
 
     inputContainer: {
-        backgroundColor: 'white',
+        backgroundColor: 'white',        
         marginTop: 25,
         padding: 20,
-        flex: 12
+        flex: Platform.os === 'ios'?14:8,
     },
 
     firstName: {

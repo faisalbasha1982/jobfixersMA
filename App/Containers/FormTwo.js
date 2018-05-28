@@ -10,7 +10,8 @@ import {
     TextInput,
     PixelRatio,
     ActivityIndicator,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import {
     BallIndicator,
@@ -98,7 +99,8 @@ class FormTwo extends Component {
             phonenumber: '',
             dropDownItem: '',            
             postalCodeInput: '',
-            postalCodeError: true,
+            postalCodeError: false,
+            checkBoxError:false,
             policyText: '',
             policyTextColor: '#000',
             buttonText: '',
@@ -112,6 +114,8 @@ class FormTwo extends Component {
             time: '',
             selected:'',
             eAuthData:'',
+            buttonClicked: false,
+            renderValidate:false,
             construct:'',
             office:'',
             industry:'',
@@ -258,7 +262,6 @@ class FormTwo extends Component {
         //         <ActivityIndicator size="large" color="#0000ff" />
         // </View>        
 
-        this.setState({isLoading: true});
 
         let phone = this.state.phonenumber;
         let fName = this.state.firstname;
@@ -289,10 +292,17 @@ class FormTwo extends Component {
 
         if(phone === '' || fName === '' || lName === '' || postalCode ==='' || this.state.checked === false )
             {
-                
+                if(postalCode === '')
+                    this.setState({ postalCodeError: true,  ErrorText: 'Postal Code is Required!' });
+
+                 if(this.state.checked === false)
+                    this.setState({ checkBoxError: true, ErrorText: 'Check Box is Required!'});
+
             }
         else
            {
+            this.setState({isLoading: true});
+
             //   let names = this.state.fullName.split(' ').toString();
               // Alert.alert('Names:', names);
               // Alert.alert('Nieche:', this.state.selected );
@@ -350,7 +360,9 @@ class FormTwo extends Component {
         let reg = /^[0-9]{4}$/;
 
         if(pcode==='')
-            this.setState({ postalCodeError: true, ErrorText: 'Postal Code is Required!' });
+        {
+            //this.setState({ postalCodeError: true, ErrorText: 'Postal Code is Required!' });
+        }
         else
         {
             if (reg.exec(pcode))
@@ -362,8 +374,8 @@ class FormTwo extends Component {
 
     renderValidation = () => {
         
-        if(this.state.postalCodeError === true)
-            return (                        
+        if(this.state.postalCodeError === true || this.state.checkBoxError === true)
+            return (
                 <View style={newStyle.validationStyle}> 
                         <Validation
                             objectParams = 
@@ -374,7 +386,22 @@ class FormTwo extends Component {
                         />
                 </View>
             );
-        
+        else
+          if(this.state.checked===false && this.state.checkBoxError !== false)
+        return (
+            <View style={newStyle.validationStyle}> 
+                    <Validation
+                        objectParams = 
+                        {{
+                            'btnText':  'Checkbox is Required!', 
+                            'language': this.props.navigation.state.params.language
+                        }}
+                    />
+            </View>
+        );
+        else
+          if(this.state.checked===true)
+           return;
         return;
 
     }
@@ -501,7 +528,7 @@ class FormTwo extends Component {
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
                     {
-                        this.renderValidation()
+                           (this.state.checkBoxError===true || this.state.postalCodeError===true)?this.renderValidation():this.somethingElse()
                     }
                 </View>
 
@@ -510,8 +537,8 @@ class FormTwo extends Component {
                         style={{ backgroundColor: '#ffffff' }}
                         resetScrollToCoords={{ x: 0, y: 0 }}
                         contentContainerStyle={newStyle.keyboardScrollViewContainer}
-                        scrollEnabled={true}
-                    >
+                        scrollEnabled={true}>
+
                     <Text style={newStyle.firstName}>{this.state.workText}</Text>
                     <View style= {newStyle.dropDownStyle}>
 
@@ -521,7 +548,7 @@ class FormTwo extends Component {
                         <DropdownMenu
                                 style={{
                                 flex: 1, 
-                                marginTop: 0,
+                                marginTop: 20,
                                 flexDirection: 'row', 
                                 borderRadius: 8, 
                                 }}
@@ -543,7 +570,7 @@ class FormTwo extends Component {
                         this.state.isLoading===true?
                         <View style = {{position: 'absolute' , zIndex:999, left: 40, top: 40, right: 0, bottom: 0}}>
                         <BallIndicator color='#e73d50' />
-                        </View>:''
+                        </View>:this.somethingElse()
                     }
 
 
@@ -561,7 +588,10 @@ class FormTwo extends Component {
                                 checked={this.state.checked}
                                 checkedColor='red'
                                 containerStyle={newStyle.checkBoxStyle}
-                                onPress={() => this.setState({checked: !this.state.checked})}
+                                onPress={() => {
+                                                   this.setState({checked: !this.state.checked});
+                                            }
+                                     }
                                 />
                     {
                         <Text style={[newStyle.policyTextStyle,{color: this.state.checked?'#000':'#e73d50'}]}>
@@ -588,7 +618,7 @@ class FormTwo extends Component {
 
                     <TouchableOpacity onPress={() => 
                     {
-                        if(this.state.checked===true && this.state.postalCodeError===false)
+                        //if(this.state.checked===true && this.state.postalCodeError===false)
                                 this.login();
 
                         //this.props.onButtonPress(this.state.language);                        
@@ -628,7 +658,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.50,
-        flex: 13,
+        flex: Platform.os === 'ios'?12:11,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -649,9 +679,10 @@ const newStyle = StyleSheet.create({
         width: viewPortWidth,
         height: 110,
         flex: 2,
+        marginTop: 15,
         flexDirection: 'row',
-        backgroundColor: 'white',
-        justifyContent: 'center',
+        backgroundColor: 'powderblue',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',                
         zIndex: 999,
     },
@@ -663,7 +694,6 @@ const newStyle = StyleSheet.create({
         paddingTop: 10,
         flex: 18,
         height: 150,
-        backgroundColor: 'white'
     },
 
     iconStyle: {
@@ -702,7 +732,7 @@ const newStyle = StyleSheet.create({
     firstName: {
         width: 159,
         height: 19,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -710,19 +740,19 @@ const newStyle = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 5,
         marginTop: 5,
-        marginLeft: 15,
+        marginLeft: 0,
     },
 
     postalName:{
         width: 159,
         height: 19,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
         letterSpacing: 0.67,
         textAlign: 'left',
-        marginLeft: 15,
+        marginLeft: 0,
         marginBottom: 10,
     },
 
@@ -741,7 +771,7 @@ const newStyle = StyleSheet.create({
         backgroundColor: '#f6f6f6',
         marginBottom: 15,
         padding: 10,
-        marginLeft: 15,
+        marginLeft: 0,
         zIndex: 1,
     },
 
@@ -768,7 +798,7 @@ const newStyle = StyleSheet.create({
     buttonTextStyle: {
         width: 266,
         height: 19,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -800,7 +830,7 @@ const newStyle = StyleSheet.create({
      policyTextStyle: {
          width: 310,
          height: 85,
-         fontFamily: 'WorkSans-Regular',
+         fontFamily: 'worksans',
          fontSize: 16,
          fontWeight: 'normal',
          fontStyle: 'normal',

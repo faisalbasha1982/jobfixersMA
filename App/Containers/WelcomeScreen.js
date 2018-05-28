@@ -154,7 +154,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.45,
-        flex: Platform.os === 'ios'?35:27,
+        flex: Platform.os === 'ios'?30:27,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -187,7 +187,7 @@ const newStyle = StyleSheet.create({
     languageText: {
         width: 316,
         height: 30,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 25,
         fontWeight: '500',
         color: '#e73d50',
@@ -205,7 +205,7 @@ const newStyle = StyleSheet.create({
     languageTextBelow: {
         width: 316,
         height: 35,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans',
         fontSize: 25,
         fontWeight: '500',
         color: '#e73d50',
@@ -233,7 +233,7 @@ const newStyle = StyleSheet.create({
     rText: {
         width: 276,
         height: 57,
-        fontFamily: 'WorkSans-Medium',
+        fontFamily: 'worksans_medium',
         fontSize: 16,
         fontStyle: 'normal',
         letterSpacing: 0.67,
