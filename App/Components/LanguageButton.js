@@ -59,6 +59,7 @@ class LanguageButton extends Component {
           marginBottom: 17,
           marginLeft: 15,
           backgroundColor: '#E73D50',
+          borderRadius: 8,
           marginTop: viewPortHeight / 80,
         }}
       >

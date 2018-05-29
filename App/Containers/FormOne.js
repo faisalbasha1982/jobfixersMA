@@ -298,9 +298,7 @@ export default class FormOne extends Component {
     }
 
     func = (renderValidate,EmptyErrorText) => {
-
       this.setState({renderValidate,EmptyErrorText});
-
     }
 
     render() {
@@ -378,7 +376,6 @@ export default class FormOne extends Component {
              </View>
 
              <View style={newStyle.inputContainer}>
-
             
                  <Text style={newStyle.firstName}>{this.state.firstName}</Text>
                  <TextInput
