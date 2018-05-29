@@ -41,12 +41,14 @@ import CompanyBanner from '../Components/CompanyBanner';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import CountryPicker, { getAllCountries} from 'react-native-country-picker-modal';
+import { WebView } from 'react-native';
 import { CountryCodes } from './CountryCodes';
 import CryptoJS from 'crypto-js';
 import utf8 from 'utf8';
 import Api from './Api';
 import DropdownMenu from './DropDownMenu';
 import Validation from '../Components/ButtonValidation';
+import Modal from "react-native-modal";
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -119,6 +121,7 @@ class FormTwo extends Component {
             construct:'',
             office:'',
             industry:'',
+            isModalVisible: false,
 
             // data: [
             //     {
@@ -134,6 +137,13 @@ class FormTwo extends Component {
         };
     
     }
+
+    setModalVisible = (visible) => {
+        this.setState({isModalVisible: visible});
+      }
+    
+    toggleModal = () =>
+    this.setState({ isModalVisible: !this.state.isModalVisible });
 
     componentWillReceiveProps(nextProps) {
         if (this.props.navigation.state.params.objectParams !== nextProps.objectParams) {
@@ -563,6 +573,14 @@ class FormTwo extends Component {
                                 handler={(selection, row) => this.setState({dropDownItem: data[selection][row]})}
                                 data={data}> 
                         </DropdownMenu>
+
+                        {/* <Picker
+                            selectedValue={data[0]}
+                            style={{ height: 50, width: 100 }}
+                            onValueChange={(itemValue, itemIndex) => this.setState({dropDownItem: itemValue})}>
+                            <Picker.Item label="Java" value="java" />
+                            <Picker.Item label="JavaScript" value="js" />
+                            </Picker> */}
                     </View>
                     
 
@@ -592,12 +610,30 @@ class FormTwo extends Component {
                                                    this.setState({checked: !this.state.checked});
                                             }
                                      }
-                                />
-                    {
-                        <Text style={[newStyle.policyTextStyle,{color: this.state.checked?'#000':'#e73d50'}]}>
-                            {this.state.policyText}
-                        </Text>                    
-                    }
+                                />                                        
+                            <Modal 
+                                isVisible={this.state.isModalVisible}
+                                animationType="slide"
+                                transparent={false}
+                                visible={this.state.isModalVisible}
+                                onRequestClose={() => {
+                                    alert('Modal has been closed.');
+                              }}>
+                                <View style={{ flex: 1 }}>
+                                <WebView
+                                        source={{uri: 'http://jobfixersportal.azurewebsites.net/TermsAndConditions/en '}}
+                                        style={{marginTop: 20}}/>
+                                    <TouchableOpacity onPress={this.toggleModal}>
+                                             <Text>CLOSE</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                </Modal>
+                        <TouchableOpacity  
+                                onPress={() => {this.setModalVisible(true);}}
+                               style={{backgroundColor: 'powderblue',height: 100, width: 100}}> 
+                               <Text> Terms & Conditions </Text>
+                       </TouchableOpacity>
+                    
                     </View>
                     </KeyboardAwareScrollView>
 
@@ -678,10 +714,10 @@ const newStyle = StyleSheet.create({
     dropDownStyle: {
         width: viewPortWidth,
         height: 110,
-        flex: 2,
+        flex:2,
         marginTop: 15,
         flexDirection: 'row',
-        backgroundColor: 'powderblue',
+        backgroundColor: 'white',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',                
         zIndex: 999,

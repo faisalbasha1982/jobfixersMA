@@ -85,12 +85,12 @@ class DropdownMenu extends Component {
       }
 
       return (
-        <View style={{width: 280, zIndex: 999, position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
+        <View style={{width: 280,  zIndex: 999, elevation: 3, position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
             <TouchableOpacity onPress={() => this.openOrClosePanel(this.state.activityIndex)} activeOpacity={1} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}>
                 <View style={{opacity: 0.4, backgroundColor: 'transparent', flex: 1 }} />
             </TouchableOpacity>
 
-          <ScrollView style={[{position: 'absolute',zIndex: 999, top: 20, left: 0, right: 0, backgroundColor: 'white'}, heightStyle]}>
+          <ScrollView style={[{position: 'absolute', elevation: 3,zIndex: 999, top: 0, left: 0, right: 0, backgroundColor: 'white'}, heightStyle]}>
           {
             currentTitles.map((title, index) =>
             <TouchableOpacity key={index} activeOpacity={1} style={{flex: 1, height: 44}} onPress={this.itemOnPress.bind(this, index)} >
@@ -194,7 +194,7 @@ class DropdownMenu extends Component {
   render() {
 
     return (
-      <View style={{ flexDirection: 'column', flex: 1}} >
+      <View style={{ flexDirection: 'column', flex: 1,height: 180}} >
           <View style={{ flexDirection: 'row',backgroundColor: this.props.bgColor ? this.props.bgColor : this.defaultConfig.bgColor}}>
                 {
                     this.props.data.map((rows, index) =>

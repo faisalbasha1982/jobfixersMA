@@ -208,7 +208,7 @@ const newStyle = StyleSheet.create({
     languageText: {
         width: 316,
         height: 140,
-        fontFamily: 'WorkSans-Regular',
+        fontFamily: 'worksans_regular',
         fontSize: 28,
         fontWeight: '500',
         color: '#e73d50',
@@ -234,7 +234,7 @@ const newStyle = StyleSheet.create({
     rText: {
         width: 148,
         height: 25,
-        fontFamily: 'WorkSans-Medium',
+        fontFamily: 'worksans_medium',
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: 'normal',

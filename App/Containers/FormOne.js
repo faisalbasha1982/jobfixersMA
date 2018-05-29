@@ -10,7 +10,7 @@ import {
     TextInput,
     PixelRatio,
     Alert,
-    Platform,
+    Platform,    
     findNodeHandle,
 } from 'react-native';
 
@@ -28,6 +28,7 @@ import CompanyBanner from '../Components/CompanyBanner';
 import Validation from '../Components/ButtonValidation';
 import LanguageSettings from '../Containers/LanguageSettingsNew';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import PhoneInput from 'react-native-phone-input';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -70,12 +71,17 @@ export default class FormOne extends Component {
             phoneNumberInput:'',
             buttonText: '',
             firstNameError:true,
+            firstNameErrorText:'',            
             lastNameError:true,
+            lastNameErrorText:'',
             phoneNumberError:true,
+            phoneNumberErrorText:'',
             ErrorText:'',
             EmptyErrorText:'',
-        };
-    
+            firstNameEmptyError:false,
+            lastNameEmptyError:false,
+            phoneNumberEmptyError:false,
+        };    
     }
 
     validationLastName = (name) => {
@@ -87,24 +93,32 @@ export default class FormOne extends Component {
         if(name === '')
         {
             //this.setState({ lastNameError: true, ErrorText: 'Last Name is Required' });
+            if(this.state.language === 'NEDERLANDS')
+                this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.language === 'ENGLISH')
+                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ lastNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
         }
         else
         {
+
             if(reg.exec(name))
             {
-              this.setState({ lastNameError: false, lastNameInput: name });
+              this.setState({ lastNameEmptyError: false, EmptyErrorText: '',lastNameError: false, lastNameInput: name,lastNameErrorText:'' });
             }
             else
             {
+                console.log("found digits");
               if(this.state.language === 'NEDERLANDS')
-                  this.setState({ lastNameError: true, ErrorText: LanguageSettings.dutch.LNameErrorText });
+                  this.setState({ lastNameEmptyError: false, lastNameError: true, lastNameErrorText: LanguageSettings.dutch.LNameErrorText });
               else
                   if(this.state.language === 'ENGLISH')
-                      this.setState({ lastNameError: true, ErrorText: LanguageSettings.english.LNameErrorText });
+                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.english.LNameErrorText });
                   else
-                      this.setState({ lastNameError: true, ErrorText: LanguageSettings.french.LNameErrorText });
-            }
-    
+                      this.setState({ lastNameEmptyError: false, lastNameError: true,lastNameErrorText: LanguageSettings.french.LNameErrorText });
+            }    
         }    
     } 
 
@@ -115,35 +129,53 @@ export default class FormOne extends Component {
         if(name === '')
         {
             //this.setState({ firstNameError: true, ErrorText: 'First Name is Required' });
+            if(this.state.language === 'NEDERLANDS')
+                this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.language === 'ENGLISH')
+                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ firstNameEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
         }
         else
         {
-
             if(reg.exec(name))
             {
-              this.setState({ firstNameError: false, firstNameInput: name });
+              this.setState({ firstNameEmptyError:'', EmptyErrorText:'', firstNameError: false, firstNameInput: name, firstNameErrorText:'' });
             }
             else
             {
               if(this.state.language === 'NEDERLANDS')
-                  this.setState({ firstNameError: true, ErrorText: LanguageSettings.dutch.FNameErrorText });
+                  this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.dutch.FNameErrorText });
               else
                   if(this.state.language === 'ENGLISH')
-                      this.setState({ firstNameError: true, ErrorText: LanguageSettings.english.FNameErrorText });
+                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.english.FNameErrorText });
                   else
-                      this.setState({ firstNameError: true, ErrorText: LanguageSettings.french.FNameErrorText });
+                      this.setState({ firstNameEmptyError:false, EmptyErrorText:'', firstNameError: true, firstNameErrorText: LanguageSettings.french.FNameErrorText });
             }
-   
         }        
     }
 
     validatePhone = (phone) => {
 
-        let reg = /^[0-9]{10}$/;
+        console.log("phone="+phone);
+
+        let phoneSub = phone.substring(1);
+
+        console.log("phone="+phoneSub);
+
+        let reg = /^[0-9]{12}$/;
 
         if(phone === '')
         {
             //this.setState({ phoneNumberError: true, ErrorText: 'Phone Number is Required' });
+            if(this.state.language === 'NEDERLANDS')
+                this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.language === 'ENGLISH')
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ phoneNumberEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
         }
         else
         {
@@ -154,16 +186,16 @@ export default class FormOne extends Component {
     
             this.phoneText = this.state.country;
     
-            if (reg.exec(phone))
-              this.setState({ phoneNumberError: false, phoneNumberInput: phone });
+            if (reg.exec(phoneSub))
+              this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: false, phoneNumberInput: phone, phoneNumberErrorText: '' });
             else
                 if(this.state.language === 'NEDERLANDS')
-                    this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.dutch.TelephoneNumberError });
+                    this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.dutch.TelephoneNumberError });
                 else
                     if(this.state.language === 'ENGLISH')
-                        this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.english.TelephoneNumberError });
+                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.english.TelephoneNumberError });
                     else
-                        this.setState({ phoneNumberError: true, ErrorText: LanguageSettings.french.TelephoneNumberError });
+                        this.setState({ phoneNumberEmptyError:false, EmptyErrorText:'', phoneNumberError: true, phoneNumberErrorText: LanguageSettings.french.TelephoneNumberError });
         }
     
         // if (homePhone.exec(phone))
@@ -172,6 +204,10 @@ export default class FormOne extends Component {
         //   this.setState({ phoneError: true });
     
     }
+
+    PhoneNumberPickerChanged = (country, callingCode, phoneNumber) => {
+        this.setState({countryName: country.name, callingCode: callingCode, phoneNo:phoneNumber});
+     }
 
     componentWillReceiveProps(nextProps) {
         console.log("in Form One screen language received="+nextProps.language);
@@ -234,14 +270,24 @@ export default class FormOne extends Component {
     }
 
     renderValidation = () => {
+
+        let errorString = this.state.EmptyErrorText;
+
+        if(this.state.firstNameError===true)
+            errorString = errorString + '\n' + this.state.firstNameErrorText;
+        if(this.state.lastNameError===true)
+            errorString = errorString + '\n' + this.state.lastNameErrorText;
+        if(this.state.phoneNumberError===true)
+            errorString = errorString + '\n' + this.state.phoneNumberErrorText;
+            
+            console.log("errorString="+errorString);
         
-        if(this.state.firstNameError === true || this.state.lastNameError === true || this.state.phoneNumberError === true)
             return (                        
                 <View style={newStyle.validationStyle}> 
                         <Validation
                             objectParams = 
                             {{
-                                'btnText': this.state.EmptyErrorText, 
+                                'btnText': errorString, 
                                 'language': this.props.navigation.state.params.language
                             }} />
                 </View>
@@ -258,11 +304,13 @@ export default class FormOne extends Component {
     }
 
     render() {
+        const platform = Platform.os;
         return (
 
+            (platform === 'ios')?
             <KeyboardAwareScrollView
                 behavior="padding"
-                enableOnAndroid={true}
+                enableOnAndroid={false}
                 contentContainerStyle={newStyle.container}
                 scrollEnabled={true}
                 scrollToEnd={true}
@@ -279,7 +327,6 @@ export default class FormOne extends Component {
                 </View>
 
                 <View style={newStyle.inputContainer}>
-
                
                     <Text style={newStyle.firstName}>{this.state.firstName}</Text>
                     <TextInput
@@ -296,14 +343,13 @@ export default class FormOne extends Component {
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
 
-                    <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
-                    <TextInput
+                     {/* <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text> 
+                     <TextInput
                         keyboardType= "numeric"
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                
-
+                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */} 
                 </View>
 
                     <ButtonNext 
@@ -321,7 +367,64 @@ export default class FormOne extends Component {
                             func = {this.func}/>
  
             </View>
-            </KeyboardAwareScrollView>
+            </KeyboardAwareScrollView>:
+             <View style={newStyle.container}>
+            
+             <View style={newStyle.headerImage}>
+                 <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
+                 {
+                   (this.state.renderValidate === true)?this.renderValidation():this.renderNothing()
+                 }
+             </View>
+
+             <View style={newStyle.inputContainer}>
+
+            
+                 <Text style={newStyle.firstName}>{this.state.firstName}</Text>
+                 <TextInput
+                             style={ newStyle.nameInput }
+                             placeholder=''
+                             underlineColorAndroid= 'transparent'
+                             onChangeText={(firstNameInput) => this.validationFirstName(firstNameInput)}/>
+                         
+
+                 <Text style={newStyle.firstName}>{this.state.name}</Text>
+                 <TextInput
+                     style={ newStyle.nameInput}
+                     placeholder=''
+                     underlineColorAndroid= 'transparent'
+                     onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
+
+                 <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text>
+                 {/* <TextInput
+                     keyboardType= "numeric"
+                     style={ newStyle.nameInput}
+                     placeholder=''
+                     underlineColorAndroid= 'transparent'
+                     onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */}
+                 <PhoneInput 
+                         ref='phone'
+                         style= {newStyle.nameInput}
+                         onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
+
+
+             </View>
+
+                 <ButtonNext 
+                         objectParams=
+                             {{
+                                 btnText: this.state.buttonText, 
+                                 language: this.props.navigation.state.params.language,
+                                 firstName: this.state.firstNameInput,
+                                 lastName: this.state.lastNameInput,
+                                 phoneNumber: this.state.phoneNumberInput,
+                                 firstNameError: this.state.firstNameError,
+                                 lastNameError: this.state.lastNameError,
+                                 phoneNumberError: this.state.phoneNumberError
+                             }}
+                         func = {this.func}/>
+
+         </View>
 
         );
     }
@@ -364,7 +467,7 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'white',        
         marginTop: 25,
         padding: 20,
-        flex: Platform.os === 'ios'?14:8,
+        flex: Platform.os === 'ios'?14:9,
     },
 
     firstName: {

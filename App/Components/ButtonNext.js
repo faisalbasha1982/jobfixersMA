@@ -24,7 +24,10 @@ class ButtonNext extends Component {
       phoneNumber:'',
       firstNameError: false,
       lastNameError: false,
-      phoneNumberError: false      
+      phoneNumberError: false,
+      firstNameEmpty: false,
+      lastNameEmpty: false,
+      phoneNumberEmpty: false,      
     };
   }
 
@@ -40,7 +43,10 @@ class ButtonNext extends Component {
         phoneNumber: nextProps.objectParams.phoneNumber,
         firstNameError: nextProps.objectParams.firstNameError,
         lastNameError: nextProps.objectParams.lastNameError,
-        phoneNumberError: nextProps.objectParams.phoneNumberError
+        phoneNumberError: nextProps.objectParams.phoneNumberError,
+        firstNameEmpty: this.props.objectParams.firstNameEmpty,
+        lastNameEmpty: this.props.objectParams.lastNameEmpty,
+        phoneNumberEmpty: this.props.objectParams.phoneNumberEmpty
       });
 
       clanguage = this.props.objectParams.language;
@@ -62,7 +68,10 @@ class ButtonNext extends Component {
         phoneNumber: this.props.objectParams.phoneNumber, 
         firstNameError: this.props.objectParams.firstNameError,
         lastNameError: this.props.objectParams.lastNameError,
-        phoneNumberError: this.props.objectParams.phoneNumberError            
+        phoneNumberError: this.props.objectParams.phoneNumberError,
+        firstNameEmpty: this.props.objectParams.firstNameEmpty,
+        lastNameEmpty: this.props.objectParams.lastNameEmpty,
+        phoneNumberEmpty: this.props.objectParams.phoneNumberEmpty            
     });
   }
 
@@ -79,7 +88,6 @@ class ButtonNext extends Component {
       else
           this.props.func(true,LanguageSettings.french.EmptyErrorText);
            
-
     console.log("firstNameError:"+this.state.firstNameError);
     console.log("lastNameError:"+this.state.lastNameError);
     console.log("phoneNameError:"+this.state.phoneNumberError);
