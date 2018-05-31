@@ -64,7 +64,7 @@ export default class LanguageScreen extends Component
                 }}>
 
           <LanguageButton
-            language={<Text style={{ fontFamily: 'worksans_light'}}>{LanguageSettings.dutch.languageText}</Text>}
+            language={<Text style={{ fontFamily: 'WorkSans-Light'}}>{LanguageSettings.dutch.languageText}</Text>}
           />
 
           <LanguageButton

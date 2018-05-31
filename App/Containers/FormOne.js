@@ -211,7 +211,7 @@ export default class FormOne extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log("in Form One screen language received="+nextProps.language);
-        if (this.prpps.language !== nextProps.language) {
+        if (this.props.navigation.state.params.language !== nextProps.language) {
             this.setState({ language: nextProps.language });
             this.setText();
         }
@@ -282,16 +282,32 @@ export default class FormOne extends Component {
             
             console.log("errorString="+errorString);
         
-            return (                        
-                <View style={newStyle.validationStyle}> 
-                        <Validation
-                            objectParams = 
-                            {{
-                                'btnText': errorString, 
-                                'language': this.props.navigation.state.params.language
-                            }} />
-                </View>
+            if(this.state.firstNameError===false && this.state.lastNameError===false && this.state.phoneNumberError===false )
+                return (                        
+                    <View style={newStyle.validationStyle}> 
+                            <Validation
+                                objectParams = 
+                                {{
+                                    'btnText': errorString, 
+                                    'language': this.props.navigation.state.params.language,
+                                    'backgroundColor':'transparent'
+                                }} />
+                    </View>
+                );
+            else
+                return (                        
+                    <View style={newStyle.validationStyle}> 
+                            <Validation
+                                objectParams = 
+                                {{
+                                    'btnText': errorString, 
+                                    'language': this.props.navigation.state.params.language,
+                                    'backgroundColor': 'normal'
+                                }} />
+                    </View>
             );
+        
+
         
         return;
 
@@ -302,7 +318,8 @@ export default class FormOne extends Component {
     }
 
     render() {
-        const platform = Platform.os;
+        const platform = Platform.OS;
+        console.log("platform --->",Platform.OS);
         return (
 
             (platform === 'ios')?
@@ -315,7 +332,6 @@ export default class FormOne extends Component {
                 enableResetScrollToCoords={true}
                 enableAutomaticScroll={true}>
 
-            <View style={newStyle.container}>
             
                 <View style={newStyle.headerImage}>
                     <Image source={logoNew} resizeMode="contain" style={{ width: viewPortWidth, height: viewPortHeight * .45 }} />
@@ -341,13 +357,17 @@ export default class FormOne extends Component {
                         underlineColorAndroid= 'transparent'
                         onChangeText= { (lastNameInput) => this.validationLastName(lastNameInput) }/>
 
-                     {/* <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text> 
-                     <TextInput
+                      <Text style={newStyle.phoneNumberStyle}>{this.state.phoneNumber}</Text> 
+                     {/* <TextInput
                         keyboardType= "numeric"
                         style={ newStyle.nameInput}
                         placeholder=''
                         underlineColorAndroid= 'transparent'
-                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>                 */} 
+                        onChangeText= { (phoneNumberInput) => this.validatePhone(phoneNumberInput) }/>  */}
+                      <PhoneInput 
+                            ref='phone'
+                            style= {newStyle.nameInput}
+                            onChangePhoneNumber = { (phoneNumberInput) => this.validatePhone(phoneNumberInput) } />
                 </View>
 
                     <ButtonNext 
@@ -364,7 +384,6 @@ export default class FormOne extends Component {
                                 }}
                             func = {this.func}/>
  
-            </View>
             </KeyboardAwareScrollView>:
              <View style={newStyle.container}>
             
@@ -453,8 +472,8 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.55,
-        flex: Platform.os === 'ios'?8:5,
+        height: viewPortHeight * 0.45,
+        flex: Platform.OS === 'ios'?9:5,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -464,13 +483,13 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'white',        
         marginTop: 25,
         padding: 20,
-        flex: Platform.os === 'ios'?14:9,
+        flex: Platform.OS === 'ios'?14:9,
     },
 
     firstName: {
         width: 159,
         height: 19,
-        fontFamily: 'worksans',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -482,7 +501,7 @@ const newStyle = StyleSheet.create({
     phoneNumberStyle: {
         width: 190,
         height: 22,
-        fontFamily: 'worksans',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -520,7 +539,6 @@ const newStyle = StyleSheet.create({
         left: 35,
         width: 60,
         height: 60,    
-    }
-
+    },
 });
 

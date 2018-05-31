@@ -19,6 +19,7 @@ export default class ButtonValidation extends Component {
     this.state = {
       validationText: '',
       language:'',
+      backgroundColor: '',
     };
   }
 
@@ -29,6 +30,7 @@ export default class ButtonValidation extends Component {
       this.setState({
         validationText: nextProps.objectParams.btnText,
         language: nextProps.objectParams.language,
+        backgroundColor: nextProps.objectParams.backgroundColor
       });
 
       clanguage = this.props.objectParams.language;
@@ -40,11 +42,13 @@ export default class ButtonValidation extends Component {
   {
     console.log("received props from NewScreen ="+this.props.objectParams);
     console.log("received props from NewScreen language ="+this.props.objectParams.language);
+    console.log("received props from NewScreen backgroundColor ="+this.props.objectParams.backgroundColor);
     clanguage = this.props.objectParams.language;
 
     this.setState({ 
                     validationText: this.props.objectParams.btnText, 
                     language: this.props.objectParams.language,
+                    backgroundColor: this.props.objectParams.backgroundColor
                 });
   }
 
@@ -69,7 +73,7 @@ export default class ButtonValidation extends Component {
             marginBottom: 17,
             marginLeft: 8,
             borderRadius: 8,
-            backgroundColor: '#d0021b',
+            backgroundColor: (this.state.backgroundColor==='normal')?'#d0021b':'transparent',
             marginTop: viewPortHeight / 80,            
         }}>
         <Text
@@ -77,8 +81,8 @@ export default class ButtonValidation extends Component {
                 fontSize: 16,
                 width: 290,
                 height: 38,
-                fontFamily: 'worksans_light',
-                fontWeight: '500',
+                fontFamily: 'WorkSans-Thin',
+                fontWeight: '300',
                 fontStyle: 'normal',
                 color: '#ffffff',
                 marginTop: 20,                

@@ -85,14 +85,14 @@ const newStyle = StyleSheet.create({
     languageText: {
                 width: viewPortWidth,
                 height: 46,
-                fontFamily: 'worksans',
+                fontFamily: 'WorkSans-Regular',
                 fontSize: 30,
                 fontWeight: "400",
                 fontStyle: 'normal',
                 lineHeight: 46,
                 letterSpacing: 0,
-                textAlign: Platform.os === 'ios'?'center':'left',
-                marginLeft: Platform.os === 'ios'?15:5,
+                textAlign: Platform.OS === 'ios'?'center':'left',
+                marginLeft: Platform.OS === 'ios'?15:5,
                 marginTop: 15
     },
 

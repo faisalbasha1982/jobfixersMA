@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
       flex: 6,
       fontSize: 30,
       color: 'black', 
-      fontFamily: 'worksans',
+      fontFamily: 'WorkSans-Regular',
       lineHeight: 46,
       letterSpacing: 0,
       textAlign: 'center'

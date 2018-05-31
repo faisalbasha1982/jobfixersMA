@@ -9,11 +9,13 @@ import {
     Dimensions,
     TextInput,
     PixelRatio,
+    Platform,
     Alert
 } from 'react-native';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationActions } from "react-navigation";
 import ButtonWelcome from '../Components/ButtonWelcome';
 import LanguageButton from '../Components/LanguageButton';
 import Spinner from "react-native-loading-spinner-overlay";
@@ -36,7 +38,7 @@ const viewPortWidth = Dimensions.get('window').width;
 
 // Styles
 
-export default class ThankYouScreen extends Component {
+class ThankYouScreen extends Component {
 
     constructor(props)
     {
@@ -52,6 +54,10 @@ export default class ThankYouScreen extends Component {
         buttonText: '',
     };
 
+    timerCount = () => {
+        setTimeout(() => { this.props.onButtonPress(this.state.language),5000});
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.language !== this.props.navigation.state.params.language) {
             this.setState({ language: nextProps.language });
@@ -63,6 +69,12 @@ export default class ThankYouScreen extends Component {
         console.log("language="+this.state.language);
         this.setState({ language: this.props.navigation.state.params.language });
         this.setText();
+
+        this._interval = setInterval(() => { this.props.onButtonPress(this.state.language),30000});        
+    }
+
+    componentWillUnmount() {
+        clearInterval(this._interval);
     }
 
     setText = () => {
@@ -96,8 +108,14 @@ export default class ThankYouScreen extends Component {
                 });
     }
 
+    doNothing = () => {
+
+    }
+
     render() {
         return (
+
+            
             <View style={newStyle.container}>
 
                 <View style={newStyle.headerImage}>
@@ -163,8 +181,8 @@ const newStyle = StyleSheet.create({
 
     headerImage: {
         width: viewPortWidth,
-        height: viewPortHeight * 0.45,
-        flex: 31,
+        height: viewPortHeight * 0.55,
+        flex: Platform.os==='ios'?31:23,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -208,7 +226,7 @@ const newStyle = StyleSheet.create({
     languageText: {
         width: 316,
         height: 140,
-        fontFamily: 'worksans_regular',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 28,
         fontWeight: '500',
         color: '#e73d50',
@@ -234,7 +252,7 @@ const newStyle = StyleSheet.create({
     rText: {
         width: 148,
         height: 25,
-        fontFamily: 'worksans_medium',
+        fontFamily: 'WorkSans-Medium',
         fontSize: 20,
         fontStyle: 'normal',
         fontWeight: 'normal',
@@ -264,3 +282,20 @@ const newStyle = StyleSheet.create({
 ThankYouScreen.propTypes = {
     language: PropTypes.string.isRequired
 }
+
+const mapStateToProps = state => {
+    return {
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        resetNavigate: navigationObject => dispatch(NavigationActions.reset(navigationObject)),
+        navigate: navigationObject => dispatch(NavigationActions.navigate(navigationObject)),
+        navigateBack: () => dispatch(NavigationActions.back()),
+        onButtonPress: (language) => dispatch(NavigationActions.navigate({routeName: 'WelcomeScreen', params:{language: language}})),  
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThankYouScreen);
+

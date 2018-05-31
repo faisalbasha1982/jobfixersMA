@@ -102,6 +102,8 @@ class FormTwo extends Component {
             dropDownItem: '',            
             postalCodeInput: '',
             postalCodeError: false,
+            postalCodeEmptyError:false,
+            EmptyErrorText:'',
             checkBoxError:false,
             policyText: '',
             policyTextColor: '#000',
@@ -292,8 +294,7 @@ class FormTwo extends Component {
         if(this.state.dropDownItem === 'Clerk'
             || this.state.dropDownItem === 'Bediende'
             || this.state.dropDownItem === 'Employé')
-            Nieche = 'Office';
-            
+            Nieche = 'Office';            
 
         console.log("values found in login, phone = "+this.state.phonenumber);
         console.log("values found in login, fName = "+this.state.firstname);
@@ -357,33 +358,47 @@ class FormTwo extends Component {
             }
     }
 
-    validateCheckBox = (checked) => {        
-
-            if(checked === false)
-                this.setState({ CheckBoxError: true, ErrorText: 'CheckBox is Clicked', policyTextColor: '#e73d50' });
-            else
-                this.setState({ CheckBoxError: false, ErrorText: '', policyTextColor: '#000' });
-
-    }   
-
     validationPostalCode = (pcode) => {
         let reg = /^[0-9]{4}$/;
 
         if(pcode==='')
         {
             //this.setState({ postalCodeError: true, ErrorText: 'Postal Code is Required!' });
+
+            if(this.state.language === 'NEDERLANDS')
+                this.setState({ postalCodeEmptyError: true, EmptyErrorText: LanguageSettings.dutch.EmptyErrorText });
+            else
+                if(this.state.language === 'ENGLISH')
+                    this.setState({ postalCodeEmptyError: true, EmptyErrorText: LanguageSettings.english.EmptyErrorText });
+                else
+                    this.setState({ postalCodeEmptyError: true, EmptyErrorText: LanguageSettings.french.EmptyErrorText });
+
         }
         else
         {
             if (reg.exec(pcode))
-                this.setState({ postalCodeError: false, postalCodeInput: pcode });
+                this.setState({ postalCodeEmptyError:false, EmptyErrorText: '', postalCodeError: false, postalCodeInput: pcode });
             else
-                this.setState({ postalCodeError: true,  ErrorText: 'Postal Code is not Valid' });
+                this.setState({ postalCodeEmptyError:false, EmptyErrorText: '', postalCodeError: true,  ErrorText: 'Postal Code is not Valid' });
         }    
     }
 
     renderValidation = () => {
         
+        let errorString = this.state.ErrorText + '\n';
+        errorString = errorString + this.state.EmptyErrorText + '\n';
+
+        if(this.state.checked===false)
+           {
+               if(this.state.language==='NEDERLANDS')
+                    errorString = errorString + LanguageSettings.dutch.CheckBoxErrorText;
+                else
+                    if(this.state.language === 'ENGLISH')
+                        errorString = errorString + LanguageSettings.english.CheckBoxErrorText;
+                    else
+                        errorString = errorString + LanguageSettings.french.CheckBoxErrorText;                    
+           }
+
         if(this.state.postalCodeError === true || this.state.checkBoxError === true)
             return (
                 <View style={newStyle.validationStyle}> 
@@ -391,7 +406,8 @@ class FormTwo extends Component {
                             objectParams = 
                             {{
                                 'btnText': this.state.ErrorText, 
-                                'language': this.props.navigation.state.params.language
+                                'language': this.props.navigation.state.params.language,
+                                'backgroundColor':'normal'
                             }}
                         />
                 </View>
@@ -403,15 +419,28 @@ class FormTwo extends Component {
                     <Validation
                         objectParams = 
                         {{
-                            'btnText':  'Checkbox is Required!', 
-                            'language': this.props.navigation.state.params.language
+                            'btnText':  errorString, 
+                            'language': this.props.navigation.state.params.language,
+                            'backgroundColor':'normal'
                         }}
                     />
             </View>
         );
         else
           if(this.state.checked===true)
-           return;
+           return(
+            <View style={newStyle.validationStyle}> 
+                    <Validation
+                        objectParams = 
+                        {{
+                            'btnText':  '', 
+                            'language': this.props.navigation.state.params.language,
+                            'backgroundColor':'transparent'
+                        }}
+                    />
+            </View>
+               
+           );
         return;
 
     }
@@ -594,9 +623,10 @@ class FormTwo extends Component {
 
                     <Text style={newStyle.postalName}>{this.state.postalCode}</Text>
                     <TextInput
-                        style={ newStyle.nameInput}
-                        keyboardType= "numeric"
+                        style={newStyle.nameInput}
+                        keyboardType="numeric"
                         placeholder=''
+                        underlineColorAndroid= 'transparent'
                         onChangeText= { (postalCodeInput) => this.validationPostalCode(postalCodeInput) }
                     />
 
@@ -621,7 +651,7 @@ class FormTwo extends Component {
                               }}>
                                 <View style={{ flex: 1 }}>
                                 <WebView
-                                        source={{uri: 'http://jobfixersportal.azurewebsites.net/TermsAndConditions/en '}}
+                                        source={{uri: 'http://jobfixersportal.azurewebsites.net/TermsAndConditions/en'}}
                                         style={{marginTop: 20}}/>
                                     <TouchableOpacity onPress={this.toggleModal}>
                                              <Text>CLOSE</Text>
@@ -694,7 +724,7 @@ const newStyle = StyleSheet.create({
     headerImage: {
         width: viewPortWidth,
         height: viewPortHeight * 0.50,
-        flex: Platform.os === 'ios'?12:11,
+        flex: Platform.OS === 'ios'?12:11,
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',
@@ -768,7 +798,7 @@ const newStyle = StyleSheet.create({
     firstName: {
         width: 159,
         height: 19,
-        fontFamily: 'worksans',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -782,7 +812,7 @@ const newStyle = StyleSheet.create({
     postalName:{
         width: 159,
         height: 19,
-        fontFamily: 'worksans',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -801,7 +831,7 @@ const newStyle = StyleSheet.create({
     },
 
     nameInput: {
-        width: 334,
+        width: 350,
         height: 57,
         borderRadius: 8,
         backgroundColor: '#f6f6f6',
@@ -834,7 +864,7 @@ const newStyle = StyleSheet.create({
     buttonTextStyle: {
         width: 266,
         height: 19,
-        fontFamily: 'worksans',
+        fontFamily: 'WorkSans-Regular',
         fontSize: 16,
         fontWeight: '500',
         fontStyle: 'normal',
@@ -849,7 +879,6 @@ const newStyle = StyleSheet.create({
         backgroundColor: 'white',
         borderColor: 'white',
         padding: 0,
-
     },
 
     policyStyle: {
@@ -859,14 +888,13 @@ const newStyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         marginTop: 0,
-        paddingLeft: 5
-        
+        paddingLeft: 5        
     },
 
      policyTextStyle: {
          width: 310,
          height: 85,
-         fontFamily: 'worksans',
+         fontFamily: 'WorkSans-Regular',
          fontSize: 16,
          fontWeight: 'normal',
          fontStyle: 'normal',

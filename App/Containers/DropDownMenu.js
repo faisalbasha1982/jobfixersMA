@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     fontSize: 14,
     textAlign: 'left',
-    fontFamily: 'worksans',
+    fontFamily: 'WorkSans-Regular',
     fontSize: 16,
     fontWeight: '500',
     fontStyle: 'normal',

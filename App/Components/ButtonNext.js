@@ -119,7 +119,7 @@ class ButtonNext extends Component {
                 fontSize: 17,
                 width: 333,
                 height: 19,
-                fontFamily: 'worksans',
+                fontFamily: 'WorkSans-Regular',
                 fontWeight: '500',
                 fontStyle: 'normal',
                 color: '#ffffff',
