@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-    ScrollView,
     Text,
     Image,
     View,
@@ -10,8 +9,12 @@ import {
     TextInput,
     PixelRatio,
     ActivityIndicator,
+    TouchableWithoutFeedback,
     Alert,
-    Platform
+    ScrollView,
+    Picker,
+    Platform,
+    Linking
 } from 'react-native';
 import {
     BallIndicator,
@@ -49,6 +52,7 @@ import Api from './Api';
 import DropdownMenu from './DropDownMenu';
 import Validation from '../Components/ButtonValidation';
 import Modal from "react-native-modal";
+import SmartPicker from 'react-native-smart-picker';
 
 import { Colors } from "../Themes";
 import { Images } from '../Themes';
@@ -124,6 +128,7 @@ class FormTwo extends Component {
             office:'',
             industry:'',
             isModalVisible: false,
+            language:'',
 
             // data: [
             //     {
@@ -553,6 +558,25 @@ class FormTwo extends Component {
         //this.props.onButtonPress(this.state.language);
     }
 
+    pickerComponent = () => {
+        console.log("hello in picker Component");
+        return (
+            <Picker
+            selectedValue={this.state.dropDownItem}
+            style={{                                          
+            backgroundColor: '#f6f6f6',
+            fontFamily: 'WorkSans-Bold',
+            fontWeight: '400',
+            padding: 10,                                        
+        }}
+            onValueChange={(itemValue, itemIndex) => this.setState({dropDownItem: itemValue})}>
+            <Picker.Item label={this.state.construct} value={this.state.construct} />
+            <Picker.Item label={this.state.industry} value={this.state.industry} />
+            <Picker.Item label={this.state.office} value={this.state.office} />
+        </Picker>       
+        );
+    }
+
     render() {
         const myIcon = (<Icon name="angle-left" size={30} color="#900" />);
         var bt = LanguageSettings.dutch.buttonTextJob;
@@ -584,7 +608,7 @@ class FormTwo extends Component {
                             {/* valueExtractor = {({value}) => value}
                             onChangeText={(value)=> { this.onChangeTextPress(value) }} */}
 
-                        <DropdownMenu
+                        {/* <DropdownMenu
                                 style={{
                                 flex: 1, 
                                 marginTop: 20,
@@ -601,15 +625,80 @@ class FormTwo extends Component {
                                 maxHeight={200} 
                                 handler={(selection, row) => this.setState({dropDownItem: data[selection][row]})}
                                 data={data}> 
-                        </DropdownMenu>
+                        </DropdownMenu> */}
+
+                       <View style={{
+                                width: 250,
+                                height: 57,
+                                borderRadius: 8,
+                                backgroundColor: '#f6f6f6',
+                                padding: 10,
+                                fontFamily: 'WorkSans-Bold',
+                                fontWeight: '400',
+                                paddingLeft: 0,}}>
+                                    <Picker
+                                        selectedValue={this.state.dropDownItem}
+                                        style={{                                          
+                                        backgroundColor: '#f6f6f6',
+                                        fontFamily: 'WorkSans-Bold',
+                                        fontWeight: '400',
+                                        padding: 10,                                        
+                                    }}
+                                        onValueChange={(itemValue, itemIndex) => this.setState({dropDownItem: itemValue})}>
+                                        <Picker.Item label={this.state.construct} value={this.state.construct} />
+                                        <Picker.Item label={this.state.industry} value={this.state.industry} />
+                                        <Picker.Item label={this.state.office} value={this.state.office} />
+                                    </Picker>
+                        </View>
+
+                        {/* <TouchableOpacity onPress={() => (this.pickerComponent())}
+                            activeOpacity={0.5}
+                            style={newStyle.iconStyleTop}>
+                            <Icon
+                                containerStyle={newStyle.iconImageStyle}                               
+                                name='angle-down'
+                                type='font-awesome'
+                                color='#000'
+                                size = {40} /> 
+                    </TouchableOpacity> */}
+    
+                        <View style={{
+                                width: 57,
+                                height: 57,
+                                borderRadius: 8,
+                                backgroundColor: '#f6f6f6',
+                                marginLeft: 20,
+                                padding: 10,}}>
+
+                                <ScrollView style={{flex:1}}>
+                                    <SmartPicker
+                                        arrowDownType='keyboard_arrow_down'
+                                        SelectedValue={this.state.dropDownItem}
+                                        label=''
+                                        onValueChange={(itemValue, itemIndex) => this.setState({dropDownItem: itemValue})}>
+
+                                        <Picker.Item label={this.state.construct} value={this.state.construct} />
+                                        <Picker.Item label={this.state.industry} value={this.state.industry} />
+                                        <Picker.Item label={this.state.office} value={this.state.office} />
+
+                                    </SmartPicker>               
+                                </ScrollView>                                                          
+                        </View>
 
                         {/* <Picker
                             selectedValue={data[0]}
-                            style={{ height: 50, width: 100 }}
+                            style={{ 
+                                width: 57,
+                                height: 57,
+                                borderRadius: 8,
+                                backgroundColor: '#f6f6f6',
+                                padding: 10,                            
+                            }}
                             onValueChange={(itemValue, itemIndex) => this.setState({dropDownItem: itemValue})}>
                             <Picker.Item label="Java" value="java" />
                             <Picker.Item label="JavaScript" value="js" />
                             </Picker> */}
+
                     </View>
                     
 
@@ -623,7 +712,7 @@ class FormTwo extends Component {
 
                     <Text style={newStyle.postalName}>{this.state.postalCode}</Text>
                     <TextInput
-                        style={newStyle.nameInput}
+                        style={[newStyle.nameInput,{marginTop: 15},]}
                         keyboardType="numeric"
                         placeholder=''
                         underlineColorAndroid= 'transparent'
@@ -641,7 +730,7 @@ class FormTwo extends Component {
                                             }
                                      }
                                 />                                        
-                            <Modal 
+                            {/* <Modal 
                                 isVisible={this.state.isModalVisible}
                                 animationType="slide"
                                 transparent={false}
@@ -657,12 +746,15 @@ class FormTwo extends Component {
                                              <Text>CLOSE</Text>
                                     </TouchableOpacity>
                                 </View>
-                                </Modal>
-                        <TouchableOpacity  
+                                </Modal> */}
+
+                               <Text style={{marginTop: 5, fontFamily: 'WorkSans-Bold', justifyContent: 'center', alignItems: 'center', fontWeight: '200', fontSize: 15}}>I Agree to the  {'\n'}<Text style={{ color: 'powderblue',fontFamily: 'WorkSans-Bold', fontWeight: '200', fontSize: 15  }} onPress={() => Linking.openURL('http://google.com')}>Terms & Conditions</Text></Text>
+                                
+                        {/* <TouchableOpacity  
                                 onPress={() => {this.setModalVisible(true);}}
                                style={{backgroundColor: 'powderblue',height: 100, width: 100}}> 
                                <Text> Terms & Conditions </Text>
-                       </TouchableOpacity>
+                       </TouchableOpacity> */}
                     
                     </View>
                     </KeyboardAwareScrollView>
@@ -743,14 +835,21 @@ const newStyle = StyleSheet.create({
 
     dropDownStyle: {
         width: viewPortWidth,
-        height: 110,
-        flex:2,
+        height: 57,
+        flex:1,        
         marginTop: 15,
+        paddingRight: 25,
         flexDirection: 'row',
         backgroundColor: 'white',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',                
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',           
         zIndex: 999,
+    },
+
+    iconImageStyle:{
+        backgroundColor: 'black',
+        width: 50,
+        height: 50
     },
 
     inputContainer: {
@@ -760,6 +859,16 @@ const newStyle = StyleSheet.create({
         paddingTop: 10,
         flex: 18,
         height: 150,
+    },
+
+    iconStyleTop: {
+        width: 57,
+        height: 57,
+        borderRadius: 8,
+        backgroundColor: '#f6f6f6',
+        marginRight: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
 
     iconStyle: {
@@ -888,7 +997,9 @@ const newStyle = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: 'white',
         marginTop: 0,
-        paddingLeft: 5        
+        paddingLeft: 0,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',        
     },
 
      policyTextStyle: {

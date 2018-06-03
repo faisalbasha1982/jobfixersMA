@@ -1,14 +1,8 @@
 package com.jobfixersma;
 
 import android.app.Application;
-import android.content.Context;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -23,39 +17,35 @@ import java.util.List;
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-      @Override
-      public boolean getUseDeveloperSupport() {
-          return BuildConfig.DEBUG;
-      }
+    @Override
+    public boolean getUseDeveloperSupport() {
+      return BuildConfig.DEBUG;
+    }
 
-      @Override
-      protected List<ReactPackage> getPackages() {
-          return Arrays.<ReactPackage>asList(
-                  new MainReactPackage(),
-            new VectorIconsPackage(),
-            new RNDeviceInfo(),
-            new ReactNativeConfigPackage(),
+    @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+          new MainReactPackage(),
             new VectorIconsPackage(),
             new RNDeviceInfo(),
             new ReactNativeConfigPackage()
-          );
-      }
-
-      @Override
-      protected String getJSMainModuleName() {
-          return "index";
-      }
-  };
+      );
+    }
 
     @Override
-    public ReactNativeHost getReactNativeHost() {
+    protected String getJSMainModuleName() {
+      return "index";
+    }
+  };
+
+  @Override
+  public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
   }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        SoLoader.init(this, /* native exopackage */ false);
-        MultiDex.install(this);
-    }
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    SoLoader.init(this, /* native exopackage */ false);
+  }
 }
